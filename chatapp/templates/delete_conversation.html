@@ -1,0 +1,10 @@
+<!-- delete_conversation.html -->
+{% extends 'basee.html' %}
+{% block content %}
+  <h1>Delete Conversation</h1>
+  <p>Are you sure you want to delete this conversation?</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Delete</button>
+  </form>
+{% endblock %}

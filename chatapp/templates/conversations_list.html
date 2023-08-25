@@ -1,0 +1,13 @@
+
+<!-- conversations_list.html -->
+{% extends 'basee.html' %}
+{% block content %}
+  <h1>My Conversations</h1>
+  <ul>
+    {% for conversation in conversations %}
+      <li><a href="{% url 'chat_detail' conversation_id=conversation.id %}">{{ conversation.created_at }}</a></li>
+    {% endfor %}
+  </ul>
+{% endblock %}
+
+

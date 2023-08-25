@@ -1,0 +1,47 @@
+{%extends 'base.html'%}
+{%load static%}
+
+{% block title %}  Data Chat   {%endblock%}
+{% block css %}
+/* Style for the round image container */
+.round-image {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: #4eac6d;
+    /* Background color for the round image */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+}
+
+.chat-conversation .data-chat-avatar img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+}
+
+.round-name {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #4eac6d;
+    /* Background color for the round image */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+}
+{%endblock%}
+
+{%block content%}
+
+
+{% endblock %}
+
+

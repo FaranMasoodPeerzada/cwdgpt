@@ -1,0 +1,42 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Chat Platform</title>
+    <!-- Add your CSS and other stylesheets here -->
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Your Chat Platform</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="{% url 'start_chat' %}">Start New Chat</a></li>
+            <li><a href="{% url 'conversations_list' %}">My Conversations</a></li>
+            <!-- Add more navigation links as needed -->
+        </ul>
+    </nav>
+    With these steps, users will be able to access their previous conversations by visiting the "My Conversations" page, where they can see a list of conversations they've participated in. Clicking on a conversation will take them to the chat detail page for that specific conversation, where they can see the messages exchanged.
+    
+    
+    
+    
+    
+    
+    
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    
+    <footer>
+        <p>&copy; {{ year }} Your Chat Platform. All rights reserved.</p>
+    </footer>
+    
+    <!-- Add your JavaScript scripts and other resources here -->
+    <script src="{% static 'assets/js/script.js' %}"></script>
+</body>
+</html>
