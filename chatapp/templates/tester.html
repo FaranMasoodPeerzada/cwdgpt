@@ -151,7 +151,7 @@
                     <li class="nav-item dropdown profile-user-dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
-                            <img src="{% static 'assets/images/users/avatar-1.jpg'%}" alt=""
+                            <img src="{% static 'assets/images/users/user-dummy-img.jpg'%}" alt=""
                                 class="profile-user rounded-circle" />
                         </a>
                         <div class="dropdown-menu">
@@ -222,7 +222,7 @@
 
                         <div class="text-center p-3 p-lg-4 border-bottom pt-2 pt-lg-2 mt-n5 position-relative">
                             <div class="mb-lg-3 mb-2">
-                                <img src="{% static 'assets/images/users/avatar-1.jpg'%}"
+                                <img src="{% static 'assets/images/users/user-dummy-img.jpg'%}"
                                     class="rounded-circle avatar-lg img-thumbnail" alt="" />
                             </div>
 
@@ -316,6 +316,7 @@
                                 </div>
 
                                 <div>
+                                    {% for doc in file_list %}
                                     <div class="card p-2 border mb-2 bg-transparent">
                                         <div class="d-flex align-items-center">
                                             <div class="flex-shrink-0 avatar-xs ms-1 me-3">
@@ -325,11 +326,11 @@
                                             </div>
                                             <div class="flex-grow-1 overflow-hidden">
                                                 <h5 class="font-size-14 text-truncate mb-1">
-                                                    design-phase-1-approved.pdf
+                                                    {{doc.file_name}}
                                                 </h5>
-                                                <p class="text-muted font-size-13 mb-0">12.5 MB</p>
+                                                <p class="text-muted font-size-13 mb-0">{{doc.file_size}}</p>
                                             </div>
-
+    
                                             <div class="flex-shrink-0 ms-3">
                                                 <div class="d-flex gap-2">
                                                     <div>
@@ -338,18 +339,16 @@
                                                         </a>
                                                     </div>
                                                     <div class="dropdown">
-                                                        <a class="dropdown-toggle text-muted px-1" href="#"
-                                                            role="button" data-bs-toggle="dropdown" aria-haspopup="true"
+                                                        <a class="dropdown-toggle text-muted px-1" href="#" role="button"
+                                                            data-bs-toggle="dropdown" aria-haspopup="true"
                                                             aria-expanded="false">
                                                             <i class="bx bx-dots-horizontal-rounded"></i>
                                                         </a>
                                                         <div class="dropdown-menu dropdown-menu-end">
                                                             <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                                                href="#">Share
-                                                                <i class="bx bx-share-alt ms-2 text-muted"></i></a>
-                                                            <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                                                href="#">Bookmark
-                                                                <i class="bx bx-bookmarks text-muted ms-2"></i></a>
+                                                                href="{% url 'chat_detail' conversation_id=doc.conv_id %}">{{doc.chat}}
+                                                                <i class="bx bx-chat ms-2 text-muted"></i></a>
+                                                            
                                                             <div class="dropdown-divider"></div>
                                                             <a class="dropdown-item d-flex align-items-center justify-content-between"
                                                                 href="#">Delete
@@ -358,143 +357,14 @@
                                                     </div>
                                                 </div>
                                             </div>
+    
+                                            
                                         </div>
                                     </div>
-
-                                    <div class="card p-2 border mb-2 bg-transparent">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-shrink-0 avatar-xs ms-1 me-3">
-                                                <div class="avatar-title bg-primary-subtle text-primary rounded-circle">
-                                                    <i class="bx bx-image"></i>
-                                                </div>
-                                            </div>
-                                            <div class="flex-grow-1 overflow-hidden">
-                                                <h5 class="font-size-14 text-truncate mb-1">
-                                                    Image-1.jpg
-                                                </h5>
-                                                <p class="text-muted font-size-13 mb-0">4.2 MB</p>
-                                            </div>
-
-                                            <div class="flex-shrink-0 ms-3">
-                                                <div class="d-flex gap-2">
-                                                    <div>
-                                                        <a href="#" class="text-muted px-1">
-                                                            <i class="bx bxs-download"></i>
-                                                        </a>
-                                                    </div>
-                                                    <div class="dropdown">
-                                                        <a class="dropdown-toggle text-muted px-1" href="#"
-                                                            role="button" data-bs-toggle="dropdown" aria-haspopup="true"
-                                                            aria-expanded="false">
-                                                            <i class="bx bx-dots-horizontal-rounded"></i>
-                                                        </a>
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                                                href="#">Share
-                                                                <i class="bx bx-share-alt ms-2 text-muted"></i></a>
-                                                            <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                                                href="#">Bookmark
-                                                                <i class="bx bx-bookmarks text-muted ms-2"></i></a>
-                                                            <div class="dropdown-divider"></div>
-                                                            <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                                                href="#">Delete
-                                                                <i class="bx bx-trash ms-2 text-muted"></i></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="card p-2 border mb-2 bg-transparent">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-shrink-0 avatar-xs ms-1 me-3">
-                                                <div class="avatar-title bg-primary-subtle text-primary rounded-circle">
-                                                    <i class="bx bx-image"></i>
-                                                </div>
-                                            </div>
-                                            <div class="flex-grow-1 overflow-hidden">
-                                                <h5 class="font-size-14 text-truncate mb-1">
-                                                    Image-2.jpg
-                                                </h5>
-                                                <p class="text-muted font-size-13 mb-0">3.1 MB</p>
-                                            </div>
-
-                                            <div class="flex-shrink-0 ms-3">
-                                                <div class="d-flex gap-2">
-                                                    <div>
-                                                        <a href="#" class="text-muted px-1">
-                                                            <i class="bx bxs-download"></i>
-                                                        </a>
-                                                    </div>
-                                                    <div class="dropdown">
-                                                        <a class="dropdown-toggle text-muted px-1" href="#"
-                                                            role="button" data-bs-toggle="dropdown" aria-haspopup="true"
-                                                            aria-expanded="false">
-                                                            <i class="bx bx-dots-horizontal-rounded"></i>
-                                                        </a>
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                                                href="#">Share
-                                                                <i class="bx bx-share-alt ms-2 text-muted"></i></a>
-                                                            <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                                                href="#">Bookmark
-                                                                <i class="bx bx-bookmarks text-muted ms-2"></i></a>
-                                                            <div class="dropdown-divider"></div>
-                                                            <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                                                href="#">Delete
-                                                                <i class="bx bx-trash ms-2 text-muted"></i></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="card p-2 border mb-2 bg-transparent">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-shrink-0 avatar-xs ms-1 me-3">
-                                                <div class="avatar-title bg-primary-subtle text-primary rounded-circle">
-                                                    <i class="bx bx-file"></i>
-                                                </div>
-                                            </div>
-                                            <div class="flex-grow-1 overflow-hidden">
-                                                <h5 class="font-size-14 text-truncate mb-1">
-                                                    Landing-A.zip
-                                                </h5>
-                                                <p class="text-muted font-size-13 mb-0">6.7 MB</p>
-                                            </div>
-
-                                            <div class="flex-shrink-0 ms-3">
-                                                <div class="d-flex gap-2">
-                                                    <div>
-                                                        <a href="#" class="text-muted px-1">
-                                                            <i class="bx bxs-download"></i>
-                                                        </a>
-                                                    </div>
-                                                    <div class="dropdown">
-                                                        <a class="dropdown-toggle text-muted px-1" href="#"
-                                                            role="button" data-bs-toggle="dropdown" aria-haspopup="true"
-                                                            aria-expanded="false">
-                                                            <i class="bx bx-dots-horizontal-rounded"></i>
-                                                        </a>
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                                                href="#">Share
-                                                                <i class="bx bx-share-alt ms-2 text-muted"></i></a>
-                                                            <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                                                href="#">Bookmark
-                                                                <i class="bx bx-bookmarks text-muted ms-2"></i></a>
-                                                            <div class="dropdown-divider"></div>
-                                                            <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                                                href="#">Delete
-                                                                <i class="bx bx-trash ms-2 text-muted"></i></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+    
+                                  
+    {% endfor %}
+                                  
                                 </div>
                             </div>
                         </div>
@@ -544,37 +414,42 @@
                                 Today
                             </h5>
 
-                            <div class="chat-message-list">
-                                <!-- Start Favourite chat-message-list -->
-                                <ul class="list-unstyled chat-list chat-user-list" id="favourite-users">
-                                    {% for conversation in conversations %}
-                                    {% if conversation.created_at.date == today %}
-                                    <li class="mt-3 {% if active_conversation_id == conversation.id %}active{% endif %}">
-                                        <a class="unread-msg-user"
-                                            href="{% url 'chat_detail' conversation_id=conversation.id %}">
-                                            <div class="d-flex align-items-center">
-                                                <div class="chat-user-img align-self-center me-2 ms-0 online">
-                                                    <div class="round-name">{{conversation.id}}</div>
-                                                    
-                                                    <span class="user-status"></span>
-                                                </div>
-                                                <div class="overflow-hidden">
-                                                    <p class="text-truncate mb-0">{{ conversation.chat_title }}</p>
-                                                </div>
+    <div class="chat-message-list">
+    <!-- Start Favourite chat-message-list -->
+   <ul class="list-unstyled chat-list chat-user-list" id="favourite-users">
+    {% for conversation in conversations %}
+    {% if conversation.created_at.date == today %}
+    <li class="mt-3 {% if active_conversation_id == conversation.id %}active{% endif %}">
+        <a class="unread-msg-user" href="{% url 'chat_detail' conversation_id=conversation.id %}">
+            <div class="d-flex align-items-center {% if active_conversation_id == conversation.id %}active-row{% endif %}">
+                <div class="chat-user-img align-self-center me-2 ms-0 online">
+                    <div class="round-name">{{conversation.chat_title|first}}</div>
+                    <span class="user-status"></span>
+                </div>
+                <div class="overflow-hidden flex-grow-1">
+                    <p class="text-truncate mb-0" style="max-width: 150px;">{{ conversation.chat_title|slice:":20" }}{% if conversation.chat_title|length > 20 %}..{% endif %}</p>
+                </div>
+                {% if active_conversation_id == conversation.id %}
+                
+                <form method="post" action="{% url 'delete_conversation' conversation.id %}">
+                    {% csrf_token %}
+                <button type="submit" title='Delete Chat' class="btn btn-soft-primary btn-sm">
+                    <i class="bx bx-trash align-middle" style="color: white; font-size: 20px;"></i>
+                </button>
+            </form>
+                
+                    {% endif %}
+            </div>
+        </a>
+    </li>
+    {% endif %}
+    {% endfor %}
+</ul>
 
-                                            </div>
+    
 
-                                        </a>
-
-
-
-                                    </li>
-                                    {% endif %}
-                            {% endfor %}
-
-
-                                </ul>
                             </div>
+                            
 
                             <div class="d-flex align-items-center px-4 mt-5 mb-2">
                                 <div class="flex-grow-1">
@@ -590,24 +465,26 @@
                                         {% for conversation in conversations %}
                                         {% if conversation.created_at.date == yesterday %}
                                         <li class="mt-3 {% if active_conversation_id == conversation.id %}active{% endif %}">
-                                            <a class="unread-msg-user"
-                                                href="{% url 'chat_detail' conversation_id=conversation.id %}">
-                                                <div class="d-flex align-items-center">
+                                            <a class="unread-msg-user" href="{% url 'chat_detail' conversation_id=conversation.id %}">
+                                                <div class="d-flex align-items-center {% if active_conversation_id == conversation.id %}active-row{% endif %}">
                                                     <div class="chat-user-img align-self-center me-2 ms-0 online">
-                                                        <div class="round-name">{{conversation.id}}</div>
-                                                        
+                                                        <div class="round-name">{{conversation.chat_title|first}}</div>
                                                         <span class="user-status"></span>
                                                     </div>
-                                                    <div class="overflow-hidden">
-                                                        <p class="text-truncate mb-0">{{ conversation.chat_title }}</p>
+                                                    <div class="overflow-hidden flex-grow-1">
+                                                        <p class="text-truncate mb-0" style="max-width: 150px;">{{ conversation.chat_title|slice:":20" }}{% if conversation.chat_title|length > 20 %}..{% endif %}</p>
                                                     </div>
-    
+                                                    {% if active_conversation_id == conversation.id %}
+                                                    
+                <form method="post" action="{% url 'delete_conversation' conversation.id %}">
+                    {% csrf_token %}
+                <button type="submit" title='Delete Chat' class="btn btn-soft-primary btn-sm">
+                    <i class="bx bx-trash align-middle" style="color: white; font-size: 20px;"></i>
+                </button>
+            </form>
+                                                        {% endif %}
                                                 </div>
-    
                                             </a>
-    
-    
-    
                                         </li>
                                         {% endif %}
                                 {% endfor %}
@@ -632,25 +509,29 @@
                                         {% for conversation in conversations %}
                                         {% if conversation.created_at.date < yesterday %}
                                         <li class="mt-3 {% if active_conversation_id == conversation.id %}active{% endif %}">
-                                            <a class="unread-msg-user"
-                                                href="{% url 'chat_detail' conversation_id=conversation.id %}">
-                                                <div class="d-flex align-items-center">
+                                            <a class="unread-msg-user" href="{% url 'chat_detail' conversation_id=conversation.id %}">
+                                                <div class="d-flex align-items-center {% if active_conversation_id == conversation.id %}active-row{% endif %}">
                                                     <div class="chat-user-img align-self-center me-2 ms-0 online">
-                                                        <div class="round-name">{{conversation.id}}</div>
-                                                        
+                                                        <div class="round-name">{{conversation.chat_title|first}}</div>
                                                         <span class="user-status"></span>
                                                     </div>
-                                                    <div class="overflow-hidden">
-                                                        <p class="text-truncate mb-0">{{ conversation.chat_title }}</p>
+                                                    <div class="overflow-hidden flex-grow-1">
+                                                        <p class="text-truncate mb-0" style="max-width: 150px;">{{ conversation.chat_title|slice:":20" }}{% if conversation.chat_title|length > 20 %}..{% endif %}</p>
                                                     </div>
-    
+                                                    {% if active_conversation_id == conversation.id %}
+                                                    
+                <form method="post" action="{% url 'delete_conversation' conversation.id %}">
+                    {% csrf_token %}
+                <button type="submit" title='Delete Chat' class="btn btn-soft-primary btn-sm">
+                    <i class="bx bx-trash align-middle" style="color: white; font-size: 20px;"></i>
+                </button>
+            </form>
+                                                    
+                                                        {% endif %}
                                                 </div>
-    
                                             </a>
-    
-    
-    
                                         </li>
+                                       
                                         {% endif %}
                                 {% endfor %}
     
@@ -2748,23 +2629,41 @@
 
                             <h5 class="font-size-16 mb-1 text-truncate"></h5>
 
-                            <div class="dropdown d-inline-block">
-                                <a class="text-muted dropdown-toggle d-block" href="#" role="button"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="bx bxs-circle text-success font-size-10 align-middle"></i>
-                                    Active <i class="mdi mdi-chevron-down"></i>
-                                </a>
-
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#"><i
-                                            class="bx bxs-circle text-success font-size-10 me-1 align-middle"></i>
-                                        Active</a>
-                                    <a class="dropdown-item" href="#"><i
-                                            class="bx bxs-circle text-warning font-size-10 me-1 align-middle"></i>
-                                        Away</a>
-                                    <a class="dropdown-item" href="#"><i
-                                            class="bx bxs-circle text-danger font-size-10 me-1 align-middle"></i>
-                                        Do not disturb</a>
+                            <div class="text-center p-3 p-lg-4 border-bottom pt-2 pt-lg-2 mt-n5 position-relative">
+                                <div class="mb-3 profile-user">
+                                    <img src="{% static 'assets/images/users/user-dummy-img.jpg'%}"
+                                        class="rounded-circle avatar-lg img-thumbnail user-profile-image"
+                                        alt="user-profile-image" />
+                                    <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
+                                        <input id="profile-img-file-input" type="file" class="profile-img-file-input" />
+                                        <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
+                                            <span class="avatar-title rounded-circle bg-light text-body">
+                                                <i class="bx bxs-camera"></i>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+    
+                                <h5 class="font-size-16 mb-1 text-truncate"></h5>
+    
+                                <div class="dropdown d-inline-block">
+                                    <a class="text-muted dropdown-toggle d-block" href="#" role="button"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="bx bxs-circle text-success font-size-10 align-middle"></i>
+                                        Active <i class="mdi mdi-chevron-down"></i>
+                                    </a>
+    
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="#"><i
+                                                class="bx bxs-circle text-success font-size-10 me-1 align-middle"></i>
+                                            Active</a>
+                                        <a class="dropdown-item" href="#"><i
+                                                class="bx bxs-circle text-warning font-size-10 me-1 align-middle"></i>
+                                            Away</a>
+                                        <a class="dropdown-item" href="#"><i
+                                                class="bx bxs-circle text-danger font-size-10 me-1 align-middle"></i>
+                                            Do not disturb</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -3221,7 +3120,7 @@
                                         <li class="list-inline-item d-none d-lg-inline-block me-2 ms-0">
                                             <button type="button" class="btn nav-btn" data-bs-toggle="modal"
                                                 data-bs-target=".audiocallModal">
-                                                <i class="bx bxs-phone-call"></i>
+                                                <i class="bx bxs-file"></i>
                                             </button>
                                         </li>
 
@@ -3724,7 +3623,7 @@
                 <div class="user-profile-sidebar">
                     <div class="p-3 border-bottom">
                         <div class="user-profile-img">
-                            <img src="{% static 'assets/images/users/avatar-2.jpg'%}" class="profile-img rounded"
+                            <img src="{% static 'assets/images/users/user-dummy-img.jpg'%}" class="profile-img rounded"
                                 alt="" />
                             <div class="overlay-content rounded">
                                 <div class="user-chat-nav p-2">
@@ -3770,7 +3669,7 @@
                                     </div>
                                 </div>
                                 <div class="mt-auto p-3">
-                                    <h5 class="user-name mb-1 text-truncate">Bella Cote</h5>
+                                    <h5 class="user-name mb-1 text-truncate">{{user}}</h5>
                                     <p class="font-size-14 text-truncate mb-0">
                                         <i class="bx bxs-circle font-size-10 text-success me-1 ms-0"></i>
                                         Online
@@ -3862,42 +3761,93 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="text-muted pt-4">
+                        <!-- <div class="text-muted pt-4">
                             <h5 class="font-size-11 text-uppercase">Status :</h5>
                             <p class="mb-4">
                                 If several languages coalesce, the grammar of the resulting.
                             </p>
-                        </div>
+                        </div> -->
 
                         <div class="pb-2">
-                            <h5 class="font-size-11 text-uppercase mb-2">Info :</h5>
+                            <h5 class="font-size-11 text-uppercase mb-2">Conversation Info :</h5>
                             <div>
                                 <div class="d-flex align-items-end">
                                     <div class="flex-grow-1">
-                                        <p class="text-muted font-size-14 mb-1">Name</p>
+                                        <p class="text-muted font-size-14 mb-1">Chat Name</p>
                                     </div>
-                                    <div class="flex-shrink-0">
-                                        <button type="button" class="btn btn-sm btn-soft-primary">
-                                            Edit
-                                        </button>
+                                    
+                                </div>
+                                <h5 class="font-size-14 text-truncate">{{conversation}}</h5>
+                            </div>
+
+                            <div class="mt-4">
+                                <p class="text-muted font-size-14 mb-1">Creation Date</p>
+                                <h5 class="font-size-14">{{conversation.created_at}}</h5>
+                            </div>
+                            <div class="mt-4">
+                                <p class="text-muted font-size-14 mb-1">Attached Document</p>
+                                
+                            </div>
+                            <div>
+                                
+                                <div class="card p-2 border mb-2 mt-2 bg-transparent">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0 avatar-xs ms-1 me-3">
+                                            <div class="avatar-title bg-primary-subtle text-primary rounded-circle">
+                                                <i class="bx bx-file"></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 overflow-hidden">
+                                            <h5 class="font-size-14 text-truncate mb-1">
+                                                {{document_file}}
+                                            </h5>
+                                            <p class="text-muted font-size-13 mb-0">{{chat_file_size}}</p>
+                                        </div>
+
+                                        <div class="flex-shrink-0 ms-3">
+                                            <div class="d-flex gap-2">
+                                                <div>
+                                                    <a href="#" class="text-muted px-1">
+                                                        <i class="bx bxs-download"></i>
+                                                    </a>
+                                                </div>
+                                                <div class="dropdown">
+                                                    <a class="dropdown-toggle text-muted px-1" href="#" role="button"
+                                                        data-bs-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        <i class="bx bx-dots-horizontal-rounded"></i>
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-end">
+                                                        <a class="dropdown-item d-flex align-items-center justify-content-between"
+                                                            href="{% url 'chat_detail' conversation_id=conversation.id %}">{{conversation}}
+                                                            <i class="bx bx-chat ms-2 text-muted"></i></a>
+                                                        
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item d-flex align-items-center justify-content-between"
+                                                            href="#">Delete
+                                                            <i class="bx bx-trash ms-2 text-muted"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        
                                     </div>
                                 </div>
-                                <h5 class="font-size-14 text-truncate">Bella Cote</h5>
+
+             
+
+                               
                             </div>
 
-                            <div class="mt-4">
-                                <p class="text-muted font-size-14 mb-1">Email</p>
-                                <h5 class="font-size-14">adc@123.com</h5>
-                            </div>
-
-                            <div class="mt-4">
+                            <!-- <div class="mt-4">
                                 <p class="text-muted font-size-14 mb-1">Location</p>
                                 <h5 class="font-size-14 mb-0">California, USA</h5>
-                            </div>
+                            </div> -->
                         </div>
-                        <hr class="my-4" />
+                        <!--   <hr class="my-4" />
 
-                        <div>
+                      <div>
                             <div class="d-flex">
                                 <div class="flex-grow-1">
                                     <h5 class="font-size-11 text-muted text-uppercase">
@@ -3936,8 +3886,8 @@
                                     </a>
                                 </li>
                             </ul>
-                        </div>
-
+                        </div> -->
+<!-- 
                         <hr class="my-4" />
 
                         <div>
@@ -3978,7 +3928,7 @@
                                     </a>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                         <hr class="my-4" />
 
@@ -3988,8 +3938,9 @@
                                     Attached Files
                                 </h5>
                             </div>
-
+                            
                             <div>
+                                {% for doc in file_list %}
                                 <div class="card p-2 border mb-2 bg-transparent">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-shrink-0 avatar-xs ms-1 me-3">
@@ -3999,9 +3950,9 @@
                                         </div>
                                         <div class="flex-grow-1 overflow-hidden">
                                             <h5 class="font-size-14 text-truncate mb-1">
-                                                design-phase-1-approved.pdf
+                                                {{doc.file_name}}
                                             </h5>
-                                            <p class="text-muted font-size-13 mb-0">12.5 MB</p>
+                                            <p class="text-muted font-size-13 mb-0">{{doc.file_size}}</p>
                                         </div>
 
                                         <div class="flex-shrink-0 ms-3">
@@ -4019,11 +3970,9 @@
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-end">
                                                         <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                                            href="#">Share
-                                                            <i class="bx bx-share-alt ms-2 text-muted"></i></a>
-                                                        <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                                            href="#">Bookmark
-                                                            <i class="bx bx-bookmarks text-muted ms-2"></i></a>
+                                                            href="{% url 'chat_detail' conversation_id=doc.conv_id %}">{{doc.chat}}
+                                                            <i class="bx bx-chat ms-2 text-muted"></i></a>
+                                                        
                                                         <div class="dropdown-divider"></div>
                                                         <a class="dropdown-item d-flex align-items-center justify-content-between"
                                                             href="#">Delete
@@ -4032,143 +3981,15 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        
                                     </div>
                                 </div>
 
-                                <div class="card p-2 border mb-2 bg-transparent">
-                                    <div class="d-flex align-items-center">
-                                        <div class="flex-shrink-0 avatar-xs ms-1 me-3">
-                                            <div class="avatar-title bg-primary-subtle text-primary rounded-circle">
-                                                <i class="bx bx-image"></i>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 overflow-hidden">
-                                            <h5 class="font-size-14 text-truncate mb-1">
-                                                Image-1.jpg
-                                            </h5>
-                                            <p class="text-muted font-size-13 mb-0">4.2 MB</p>
-                                        </div>
+                              
+{% endfor %}
 
-                                        <div class="flex-shrink-0 ms-3">
-                                            <div class="d-flex gap-2">
-                                                <div>
-                                                    <a href="#" class="text-muted px-1">
-                                                        <i class="bx bxs-download"></i>
-                                                    </a>
-                                                </div>
-                                                <div class="dropdown">
-                                                    <a class="dropdown-toggle text-muted px-1" href="#" role="button"
-                                                        data-bs-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">
-                                                        <i class="bx bx-dots-horizontal-rounded"></i>
-                                                    </a>
-                                                    <div class="dropdown-menu dropdown-menu-end">
-                                                        <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                                            href="#">Share
-                                                            <i class="bx bx-share-alt ms-2 text-muted"></i></a>
-                                                        <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                                            href="#">Bookmark
-                                                            <i class="bx bx-bookmarks text-muted ms-2"></i></a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                                            href="#">Delete
-                                                            <i class="bx bx-trash ms-2 text-muted"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="card p-2 border mb-2 bg-transparent">
-                                    <div class="d-flex align-items-center">
-                                        <div class="flex-shrink-0 avatar-xs ms-1 me-3">
-                                            <div class="avatar-title bg-primary-subtle text-primary rounded-circle">
-                                                <i class="bx bx-image"></i>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 overflow-hidden">
-                                            <h5 class="font-size-14 text-truncate mb-1">
-                                                Image-2.jpg
-                                            </h5>
-                                            <p class="text-muted font-size-13 mb-0">3.1 MB</p>
-                                        </div>
-
-                                        <div class="flex-shrink-0 ms-3">
-                                            <div class="d-flex gap-2">
-                                                <div>
-                                                    <a href="#" class="text-muted px-1">
-                                                        <i class="bx bxs-download"></i>
-                                                    </a>
-                                                </div>
-                                                <div class="dropdown">
-                                                    <a class="dropdown-toggle text-muted px-1" href="#" role="button"
-                                                        data-bs-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">
-                                                        <i class="bx bx-dots-horizontal-rounded"></i>
-                                                    </a>
-                                                    <div class="dropdown-menu dropdown-menu-end">
-                                                        <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                                            href="#">Share
-                                                            <i class="bx bx-share-alt ms-2 text-muted"></i></a>
-                                                        <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                                            href="#">Bookmark
-                                                            <i class="bx bx-bookmarks text-muted ms-2"></i></a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                                            href="#">Delete
-                                                            <i class="bx bx-trash ms-2 text-muted"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="card p-2 border mb-2 bg-transparent">
-                                    <div class="d-flex align-items-center">
-                                        <div class="flex-shrink-0 avatar-xs ms-1 me-3">
-                                            <div class="avatar-title bg-primary-subtle text-primary rounded-circle">
-                                                <i class="bx bx-file"></i>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 overflow-hidden">
-                                            <h5 class="font-size-14 text-truncate mb-1">
-                                                Landing-A.zip
-                                            </h5>
-                                            <p class="text-muted font-size-13 mb-0">6.7 MB</p>
-                                        </div>
-
-                                        <div class="flex-shrink-0 ms-3">
-                                            <div class="d-flex gap-2">
-                                                <div>
-                                                    <a href="#" class="text-muted px-1">
-                                                        <i class="bx bxs-download"></i>
-                                                    </a>
-                                                </div>
-                                                <div class="dropdown">
-                                                    <a class="dropdown-toggle text-muted px-1" href="#" role="button"
-                                                        data-bs-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">
-                                                        <i class="bx bx-dots-horizontal-rounded"></i>
-                                                    </a>
-                                                    <div class="dropdown-menu dropdown-menu-end">
-                                                        <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                                            href="#">Share
-                                                            <i class="bx bx-share-alt ms-2 text-muted"></i></a>
-                                                        <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                                            href="#">Bookmark
-                                                            <i class="bx bx-bookmarks text-muted ms-2"></i></a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                                            href="#">Delete
-                                                            <i class="bx bx-trash ms-2 text-muted"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                               
                             </div>
                         </div>
                     </div>
@@ -4233,57 +4054,60 @@
                 <div class="modal-content shadow-lg border-0">
                     <div class="modal-body p-0">
                         <div class="text-center p-4 pb-0">
-                            <div class="avatar-xl mx-auto mb-4">
-                                <img src="{% static 'assets/images/users/avatar-2.jpg'%}" alt=""
-                                    class="img-thumbnail rounded-circle" />
+                           
+                            <div class="card p-2 border mb-2 mt-2 bg-transparent mt-4 ">
+                                    <div class="d-flex align-items-center my-3">
+                                        <div class="flex-shrink-0 avatar-xs ms-1 me-3">
+                                            <div class="avatar-title bg-primary-subtle text-primary rounded-circle">
+                                                <i class="bx bx-file"></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 overflow-hidden">
+                                            <h5 class="font-size-14 text-truncate mb-1">
+                                                {{document_file|slice:':30'}}
+                                            </h5>
+                                            <p class="text-muted font-size-13 mb-0">{{chat_file_size}}</p>
+                                        </div>
+
+                                        <div class="flex-shrink-0 ms-3">
+                                            <div class="d-flex gap-2">
+                                                <div>
+                                                    <a href="#" class="dropdown-item d-flex align-items-center justify-content-between">
+                                                        <i class="bx bxs-download"></i>
+                                                    </a>
+                                                </div>
+                                                <div class="mx-3">
+                                                    <a class="dropdown-item d-flex align-items-center justify-content-between"
+                                                    href="#">
+                                                        <i class="bx bxs-trash"></i>
+                                                    </a>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+
+                                        
+                                    </div>
+                                </div>
+
+             
+
+                               
                             </div>
+                            
 
                             <div class="d-flex justify-content-center align-items-center mt-4">
-                                <div class="avatar-md h-auto">
-                                    <button type="button" class="btn btn-light avatar-sm rounded-circle">
-                                        <span class="avatar-title bg-transparent text-muted font-size-20">
-                                            <i class="bx bx-microphone-off"></i>
-                                        </span>
-                                    </button>
-                                    <h5 class="font-size-11 text-uppercase text-muted mt-2">
-                                        Mute
-                                    </h5>
-                                </div>
-                                <div class="avatar-md h-auto">
-                                    <button type="button" class="btn btn-light avatar-sm rounded-circle">
-                                        <span class="avatar-title bg-transparent text-muted font-size-20">
-                                            <i class="bx bx-volume-full"></i>
-                                        </span>
-                                    </button>
-                                    <h5 class="font-size-11 text-uppercase text-muted mt-2">
-                                        Speaker
-                                    </h5>
-                                </div>
-                                <div class="avatar-md h-auto">
-                                    <button type="button" class="btn btn-light avatar-sm rounded-circle">
-                                        <span class="avatar-title bg-transparent text-muted font-size-20">
-                                            <i class="bx bx-user-plus"></i>
-                                        </span>
-                                    </button>
-                                    <h5 class="font-size-11 text-uppercase text-muted mt-2">
-                                        Add New
-                                    </h5>
-                                </div>
+                                
                             </div>
 
                             <div class="mt-4">
-                                <button type="button" class="btn btn-danger avatar-md call-close-btn rounded-circle"
-                                    data-bs-dismiss="modal">
-                                    <span class="avatar-title bg-transparent font-size-24">
-                                        <i class="mdi mdi-phone-hangup"></i>
-                                    </span>
-                                </button>
+                                
                             </div>
                         </div>
 
                         <div class="p-4 bg-primary-subtle mt-n4">
                             <div class="mt-4 text-center">
-                                <h5 class="font-size-18 mb-0 text-truncate">Bella Cote</h5>
+                                <h5 class="font-size-18 mb- text-truncate">{{conversation}}</h5>
                             </div>
                         </div>
                     </div>

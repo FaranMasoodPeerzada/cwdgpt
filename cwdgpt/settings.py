@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-n@ft$=b$-a4-t3snm@2lt4&8%pt#fl37xq7*i2uz70n02&0ii@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['16.171.142.175']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+    'bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -125,7 +125,17 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'chatapp', 'static')]
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-# settings.py
+# Document storing
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+#Approval email sending
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_HOST_USER = 'faranpeerzada253@gmail.com'  # Your Gmail email
+EMAIL_HOST_PASSWORD = 'ucyvqjdtunotwjtk'  # Your Gmail password or app-specific password

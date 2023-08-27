@@ -49,20 +49,3 @@ class Message(models.Model):
 
 
 
-
-
-# class Conversation(models.Model):
-#     participants = models.ManyToManyField(User, related_name='conversations')
-    
-#     def __str__(self):
-#         return f"Conversation from {self.id} "
-    
-# class Message(models.Model):
-#     #conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE, related_name='messages')
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     content = models.TextField()
-#     response = models.TextField()
-#     sent_at = models.DateTimeField(auto_now_add=True)
-
-#     def __str__(self):
-#         return f"Message from {self.user} "

@@ -81,7 +81,8 @@
                                                 <br>
                                                 {% for message in messages  %}   
                                                 <div class="alert alert-{{ message.tags }}" role="alert">
-                                                    <strong>Message : </strong> {{ message }}
+                                                    <strong>Message : </strong>
+                                                     {{ message|linebreaksbr }}
                                                   </div>
                                     
                                                                                            {% endfor %}  
