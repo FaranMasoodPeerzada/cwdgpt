@@ -138,4 +138,4 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 EMAIL_HOST_USER = 'faranpeerzada253@gmail.com'  # Your Gmail email
-EMAIL_HOST_PASSWORD = 'Azaan@143'  # Your Gmail password or app-specific password
+EMAIL_HOST_PASSWORD = 'ucyvqjdtunotwjtk'  # Your Gmail password or app-specific password
