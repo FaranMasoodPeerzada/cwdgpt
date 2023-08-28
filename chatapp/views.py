@@ -23,24 +23,24 @@ from django.http import JsonResponse
 
 
 
-openai_api_key = ''
+openai_api_key = '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'
 openai.api_key = openai_api_key
 
-def ask_openai(message):
-    response = openai.ChatCompletion.create(
-        model = "gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": "You are an helpful assistant."},
-            {"role": "user", "content": message},
-        ]
-    )
+# def ask_openai(message):
+#     response = openai.ChatCompletion.create(
+#         model = "gpt-3.5-turbo",
+#         messages=[
+#             {"role": "system", "content": "You are an helpful assistant."},
+#             {"role": "user", "content": message},
+#         ]
+#     )
     
-    answer = response.choices[0].message.content.strip()
-    return answer
+#     answer = response.choices[0].message.content.strip()
+#     return answer
 import PyPDF2
 import os
 from datetime import datetime,timedelta
-import magic
+#import magic
 from django.shortcuts import render, redirect
 from .models import Conversation, Message
 from .forms import ConversationForm
@@ -56,10 +56,10 @@ from .forms import ConversationForm
 #         form = ConversationForm()
 #     return render(request, 'start_chat.html', {'form': form})
 
-def check_file_type(file_path):
-    mime = magic.Magic()
-    file_type = mime.from_file(file_path)
-    return file_type
+# def check_file_type(file_path):
+#     mime = magic.Magic()
+#     file_type = mime.from_file(file_path)
+#     return file_type
 
 def read_pdf(pdf_path):
     with open(pdf_path, 'rb') as pdf_file:
@@ -111,8 +111,8 @@ def chat_detail(request, conversation_id):
     print(chat_file_size)
     filename = os.path.basename(document_file)
     file_path = os.path.join("media", document_file)
-    detected_type = check_file_type(file_path)
-    print(f"Typeeeeeeeeeeeeeee {detected_type}")
+    # detected_type = check_file_type(file_path)
+    # print(f"Typeeeeeeeeeeeeeee {detected_type}")
     #pdf_text = read_pdf(file_path)
     #print(pdf_text)
     if request.method == 'POST':
@@ -133,7 +133,7 @@ def chat_detail(request, conversation_id):
     
     if request.method == 'POST':
           user_message = request.POST.get('message')
-          response=ask_openai(user_message)
+          response=user_message
           print(user_message)
           
           if user_message:
