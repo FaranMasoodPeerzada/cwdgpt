@@ -315,7 +315,11 @@
                             <hr class="my-4" /> {% endcomment %}
 
                             <div>
-                               
+                                <div>
+                                    <h5 class="font-size-11 text-muted text-uppercase mb-3">
+                                        Attached Files
+                                    </h5>
+                                </div>
 
                                 <div>
                                     {% for doc in file_list %}
@@ -383,9 +387,9 @@
                         <div class="px-4 pt-4">
                             <div class="d-flex align-items-start">
                                 <div class="flex-grow-1">
-                                    <h4 class="mb-4">Chats</h4>
+                                    <h4 class="mb-4">{{selected_user}}'s Chats</h4>
                                 </div>
-                                <div class="flex-shrink-0">
+                                {% comment %} <div class="flex-shrink-0">
                                     <div data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="bottom"
                                         title="Add Contact">
                                         <!-- Button trigger modal -->
@@ -394,7 +398,7 @@
                                             <i class="bx bx-plus"></i>
                                         </button>
                                     </div>
-                                </div>
+                                </div> {% endcomment %}
                             </div>
                             <form>
                                 <div class="input-group mb-3">
@@ -423,7 +427,7 @@
                                     {% if conversation.created_at.date == today %}
                                     <li class="mt-3 {% if active_conversation_id == conversation.id %}active{% endif %}">
                                         <a class="unread-msg-user"
-                                            href="{% url 'admin-chats' conversation_id=conversation.id %}">
+                                            href="{% url 'user_chat_view' conversation_id=conversation.id user_id=selected_user.id %}">
                                             <div class="d-flex align-items-center">
                                                 <div class="chat-user-img align-self-center me-2 ms-0 online">
                                                     <div class="round-name">{{conversation.chat_title|first}}</div>
@@ -463,8 +467,8 @@
                                     {% if conversation.created_at.date == yesterday %}
                                     <li class="mt-3 {% if active_conversation_id == conversation.id %}active{% endif %}">
                                         <a class="unread-msg-user"
-                                            href="{% url 'admin-chats' conversation_id=conversation.id %}">
-                                            <div class="d-flex align-items-center">
+                                        href="{% url 'user_chat_view' conversation_id=conversation.id user_id=selected_user.id %}">
+                                        <div class="d-flex align-items-center">
                                                 <div class="chat-user-img align-self-center me-2 ms-0 online">
                                                     <div class="round-name">{{conversation.chat_title|first}}</div>
                                                     
@@ -494,16 +498,7 @@
                                         Previous 7 Days
                                     </h4>
                                 </div>
-                                <div class="flex-shrink-0">
-                                    <div data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="bottom"
-                                        title="Create group">
-                                        <!-- Button trigger modal -->
-                                        <button type="button" class="btn btn-soft-primary btn-sm" data-bs-toggle="modal"
-                                            data-bs-target="#addgroup-exampleModal">
-                                            <i class="bx bx-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
+                                
                             </div>
 
                             <div class="chat-message-list">
@@ -513,7 +508,7 @@
                                     {% if conversation.created_at.date < yesterday %}
                                     <li class="mt-3 {% if active_conversation_id == conversation.id %}active{% endif %}">
                                         <a class="unread-msg-user"
-                                        href="{% url 'admin-chats' conversation_id=conversation.id %}">
+                                        href="{% url 'user_chat_view' conversation_id=conversation.id user_id=selected_user.id %}">
                                         <div class="d-flex align-items-center">
                                                 <div class="chat-user-img align-self-center me-2 ms-0 online">
                                                     <div class="round-name">{{conversation.chat_title|first}}</div>
@@ -3262,7 +3257,7 @@
                         </div>
                         <!-- end p-4 -->
 
-                        <!-- Start contact lists -->
+                        <!-- Start File lists -->
                         <div class="chat-message-list chat-call-list">
                             <ul class="list-unstyled chat-list" id="callList">
                               {% for doc in file_names %}
@@ -3932,12 +3927,12 @@
 
                                             <div>
                                                 <p class="text-muted mb-1">Name</p>
-                                                <h5 class="font-size-14">{{admin.admin_name}}</h5>
+                                                <h5 class="font-size-14">{{user}}</h5>
                                             </div>
 
                                             <div class="mt-4">
                                                 <p class="text-muted mb-1">Email</p>
-                                                <h5 class="font-size-14">{{admin.admin_email}}</h5>
+                                                <h5 class="font-size-14">{{user.email}}</h5>
                                             </div>
 
                                             <!-- <div class="mt-4">
@@ -4328,9 +4323,11 @@
                                                 </div>
                                                 <div class="flex-grow-1 overflow-hidden">
                                                     <h6 class="text-truncate mb-0 font-size-18">
-                                                        <a href="#" class="user-profile-show text-reset">{{conversation.chat_title}}</a>
+                                                        <a href="#" class="user-profile-show text-reset">{{selected_user}}</a>
                                                     </h6>
-                                                    
+                                                    <p class="text-truncate text-muted mb-0">
+                                                        <small>Online</small>
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -4432,86 +4429,241 @@
                         <div class="chat-conversation p-3 p-lg-4" id="chat-conversation" data-simplebar>
                             <ul class="list-unstyled chat-conversation-list" id="users-conversation">
                                 <!-- Sample conversation messages -->
-                                {% for message in messages %}
-                                                      <li class="chast-list right">
-                                                          <div class="conversation-list">
-                                                              <div class="user-chat-content">
-                                                               <div class="ctext-wrap"> 
-                                                                <div class="ctext-wrap-content">  
-                                                                 <p class="mb-0 ctext-content">{{message.text}}</p>    
-                                                             </div>                            
-                                                             <div class="dropdown align-self-start message-box-drop"> 
-                                                              <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  
-                                                              <i class="ri-more-2-fill"></i>          
-                                                              </a>                                
-                                                              <div class="dropdown-menu">                                    
-                                                              <a class="dropdown-item d-flex align-items-center justify-content-between reply-message" href="#" data-bs-toggle="collapse" data-bs-target=".replyCollapse">Reply 
-                                                                 <i class="bx bx-share ms-2 text-muted"></i>
-                                                             </a>                                    
-                                                             <a class="dropdown-item d-flex align-items-center justify-content-between" href="#" data-bs-toggle="modal" data-bs-target=".forwardModal">Forward 
-                                                                 <i class="bx bx-share-alt ms-2 text-muted"></i></a>           
-                                                                 <a class="dropdown-item d-flex align-items-center justify-content-between copy-message" href="#" id="copy-message-2">Copy 
-                                                                     <i class="bx bx-copy text-muted ms-2"></i></a>                                   
-                                                                      <a class="dropdown-item d-flex align-items-center justify-content-between" href="#">Bookmark
-                                                                          <i class="bx bx-bookmarks text-muted ms-2"></i></a>    
-                                                                           <a class="dropdown-item d-flex align-items-center justify-content-between" href="#">Mark as Unread 
-                                                                             <i class="bx bx-message-error text-muted ms-2"></i></a>                         
-                                                                             <a class="dropdown-item d-flex align-items-center justify-content-between delete-item" id="delete-item-2" href="#">Delete 
-                                                                                 <i class="bx bx-trash text-muted ms-2"></i></a>                            
-                                                                             </div>                        
-                                                                         </div>                    
-                                                                     </div>                    
-                                                                     <div class="conversation-name">                        
-                                                                         <small class="text-muted time">{{message.created_at}}</small>                        
-                                                                         <span class="text-success check-message-icon"><i class="bx bx-check"></i>
-                                                                         </span>                    
-                                                                     </div>                
-                                                                 </div>           
-                                                                 </div>     
-                                                      </li>
-                                                      <li class="chast-list left">
-                                                          <div class="conversation-list">
-                                                              <div class="user-chat-content">
-                                                               <div class="ctext-wrap"> 
-                                                                <div class="ctext-wrap-content">  
-                                                                 <p class="mb-0 ctext-content">{{message.response}}</p>    
-                                                             </div>                            
-                                                             <div class="dropdown align-self-start message-box-drop"> 
-                                                              <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  
-                                                              <i class="ri-more-2-fill"></i>          
-                                                              </a>                                
-                                                              <div class="dropdown-menu">                                    
-                                                              <a class="dropdown-item d-flex align-items-center justify-content-between reply-message" href="#" data-bs-toggle="collapse" data-bs-target=".replyCollapse">Reply 
-                                                                 <i class="bx bx-share ms-2 text-muted"></i>
-                                                             </a>                                    
-                                                             <a class="dropdown-item d-flex align-items-center justify-content-between" href="#" data-bs-toggle="modal" data-bs-target=".forwardModal">Forward 
-                                                                 <i class="bx bx-share-alt ms-2 text-muted"></i></a>           
-                                                                 <a class="dropdown-item d-flex align-items-center justify-content-between copy-message" href="#" id="copy-message-2">Copy 
-                                                                     <i class="bx bx-copy text-muted ms-2"></i></a>                                   
-                                                                      <a class="dropdown-item d-flex align-items-center justify-content-between" href="#">Bookmark
-                                                                          <i class="bx bx-bookmarks text-muted ms-2"></i></a>    
-                                                                           <a class="dropdown-item d-flex align-items-center justify-content-between" href="#">Mark as Unread 
-                                                                             <i class="bx bx-message-error text-muted ms-2"></i></a>                         
-                                                                             <a class="dropdown-item d-flex align-items-center justify-content-between delete-item" id="delete-item-2" href="#">Delete 
-                                                                                 <i class="bx bx-trash text-muted ms-2"></i></a>                            
-                                                                             </div>                        
-                                                                         </div>                    
-                                                                     </div>                    
-                                                                     <div class="conversation-name">                        
-                                                                         <small class="text-muted time">{{message.created_at}}</small>                        
-                                                                         <span class="text-success check-message-icon"><i class="bx bx-check"></i>
-                                                                         </span>                    
-                                                                     </div>                
-                                                                 </div>            </div>     
-                                                      </li>
-                      
-                                                      
-                              {% endfor %}
-                                                              
-                        
-                      
-  
-                               
+
+                                <!-- <li class="chat-list right">
+                                    <div class="conversation-list">
+                                        <div class="chat-avatar">
+                                            <div class="round-image">C</div>
+                                        </div>
+                                        <div class="user-chat-content">
+                                            <div class="ctext-wrap">
+                                                <div class="ctext-wrap-content">
+                                                    <p class="mb-0 ctext-content">dWow that's great</p>
+                                                </div>
+                                                <div class="align-self-start message-box-drop dropdown">
+                                                    <a role="button" aria-haspopup="true" class="btn btn-toggle"
+                                                        aria-expanded="false">
+                                                        <i class="ri-more-2-fill"></i></a>
+                                                    <div tabindex="-1" role="menu" aria-hidden="false"
+                                                        class="dropdown-menu show" data-popper-placement="top-start"
+                                                        style="
+                                position: absolute;
+                                inset: auto auto 0px 0px;
+                                transform: translate(0px, -43px);
+                              ">
+                                                        <button type="button" to="#" tabindex="0" role="menuitem"
+                                                            class="d-flex align-items-center justify-content-between dropdown-item">
+                                                            Copy <i class="bx bx-copy text-muted ms-2"></i>
+                                                        </button>
+                                                        <button type="button" to="#" tabindex="0" role="menuitem"
+                                                            class="d-flex align-items-center justify-content-between dropdown-item">
+                                                            Bookmark
+                                                            <i class="bx bx-bookmarks text-muted ms-2"></i>
+                                                        </button>
+                                                        <button type="button" tabindex="0" role="menuitem"
+                                                            class="d-flex align-items-center justify-content-between delete-item dropdown-item">
+                                                            Delete
+                                                            <i class="bx bx-trash text-muted ms-2"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="conversation-name">
+                                                <span class="me-1 text-success"><i
+                                                        class="bx bx-check-double bx-check"></i></span>
+                                                <small class="text-muted mb-0 me-2">05:49pm</small>You
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="chat-list">
+                                    <div class="conversation-list">
+                                        <div class="data-chat-avatar">
+                                            <img src="{% static 'assets/images/chat.png'%}" alt="Your Logo"
+                                                class="mr-2" />
+                                        </div>
+                                        <div class="user-chat-content">
+                                            <div class="ctext-wrap">
+                                                <div class="ctext-wrap-content">
+                                                    <p class="mb-0 ctext-content">
+                                                        eYeah everything is fine. Our next meeting
+                                                        tomorrow at 10.00 AM
+                                                    </p>
+                                                </div>
+                                                <div class="align-self-start message-box-drop dropdown">
+                                                    <a role="button" aria-haspopup="False" class="btn btn-toggle"
+                                                        aria-expanded="false">
+                                                        <i class="ri-more-2-fill"></i></a>
+                                                    <div tabindex="-1" role="menu" aria-hidden="false"
+                                                        class="dropdown-menu show" data-popper-placement="top-start"
+                                                        style="
+                                position: absolute;
+                                inset: auto auto 0px 0px;
+                                transform: translate(0px, -43px);
+                              ">
+                                                        <button type="button" to="#" tabindex="0" role="menuitem"
+                                                            class="d-flex align-items-center justify-content-between dropdown-item">
+                                                            Copy <i class="bx bx-copy text-muted ms-2"></i>
+                                                        </button>
+                                                        <button type="button" to="#" tabindex="0" role="menuitem"
+                                                            class="d-flex align-items-center justify-content-between dropdown-item">
+                                                            Bookmark
+                                                            <i class="bx bx-bookmarks text-muted ms-2"></i>
+                                                        </button>
+                                                        <button type="button" tabindex="0" role="menuitem"
+                                                            class="d-flex align-items-center justify-content-between delete-item dropdown-item">
+                                                            Delete
+                                                            <i class="bx bx-trash text-muted ms-2"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="conversation-name">
+                                                Data Chat<small class="text-muted mb-0 ms-2">05:49pm</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="chat-list right">
+                                    <div class="conversation-list">
+                                        <div class="chat-avatar">
+                                            <div class="round-image">C</div>
+                                        </div>
+                                        <div class="user-chat-content">
+                                            <div class="ctext-wrap">
+                                                <div class="ctext-wrap-content">
+                                                    <p class="mb-0 ctext-content">dWow that's great</p>
+                                                </div>
+                                                <div class="align-self-start message-box-drop dropdown">
+                                                    <a role="button" aria-haspopup="true" class="btn btn-toggle"
+                                                        aria-expanded="false">
+                                                        <i class="ri-more-2-fill"></i></a>
+                                                    <div tabindex="-1" role="menu" aria-hidden="false"
+                                                        class="dropdown-menu show" data-popper-placement="top-start"
+                                                        style="
+                                position: absolute;
+                                inset: auto auto 0px 0px;
+                                transform: translate(0px, -43px);
+                              ">
+                                                        <button type="button" to="#" tabindex="0" role="menuitem"
+                                                            class="d-flex align-items-center justify-content-between dropdown-item">
+                                                            Copy <i class="bx bx-copy text-muted ms-2"></i>
+                                                        </button>
+                                                        <button type="button" to="#" tabindex="0" role="menuitem"
+                                                            class="d-flex align-items-center justify-content-between dropdown-item">
+                                                            Bookmark
+                                                            <i class="bx bx-bookmarks text-muted ms-2"></i>
+                                                        </button>
+                                                        <button type="button" tabindex="0" role="menuitem"
+                                                            class="d-flex align-items-center justify-content-between delete-item dropdown-item">
+                                                            Delete
+                                                            <i class="bx bx-trash text-muted ms-2"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="conversation-name">
+                                                <span class="me-1 text-success"><i
+                                                        class="bx bx-check-double bx-check"></i></span>
+                                                <small class="text-muted mb-0 me-2">05:49pm</small>You
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="chat-list">
+                                    <div class="conversation-list">
+                                        <div class="data-chat-avatar">
+                                            <img src="{% static 'assets/images/chat.png'%}" alt="Your Logo" width="50"
+                                                height="50" class="mr-2" />
+                                        </div>
+                                        <div class="user-chat-content">
+                                            <div class="ctext-wrap">
+                                                <div class="ctext-wrap-content">
+                                                    <p class="mb-0 ctext-content">
+                                                        eYeah everything is fine. Our next meeting
+                                                        tomorrow at 10.00 AM
+                                                    </p>
+                                                </div>
+                                                <div class="align-self-start message-box-drop dropdown">
+                                                    <a role="button" aria-haspopup="true" class="btn btn-toggle"
+                                                        aria-expanded="false">
+                                                        <i class="ri-more-2-fill"></i></a>
+                                                    <div tabindex="-1" role="menu" aria-hidden="false"
+                                                        class="dropdown-menu show" data-popper-placement="top-start"
+                                                        style="
+                                position: absolute;
+                                inset: auto auto 0px 0px;
+                                transform: translate(0px, -43px);
+                              ">
+                                                        <button type="button" to="#" tabindex="0" role="menuitem"
+                                                            class="d-flex align-items-center justify-content-between dropdown-item">
+                                                            Copy <i class="bx bx-copy text-muted ms-2"></i>
+                                                        </button>
+                                                        <button type="button" to="#" tabindex="0" role="menuitem"
+                                                            class="d-flex align-items-center justify-content-between dropdown-item">
+                                                            Bookmark
+                                                            <i class="bx bx-bookmarks text-muted ms-2"></i>
+                                                        </button>
+                                                        <button type="button" tabindex="0" role="menuitem"
+                                                            class="d-flex align-items-center justify-content-between delete-item dropdown-item">
+                                                            Delete
+                                                            <i class="bx bx-trash text-muted ms-2"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="conversation-name">
+                                                Data Chat<small class="text-muted mb-0 ms-2">05:49pm</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="chat-list right">
+                                    <div class="conversation-list">
+                                        <div class="chat-avatar">
+                                            <div class="round-image">C</div>
+                                        </div>
+                                        <div class="user-chat-content">
+                                            <div class="ctext-wrap">
+                                                <div class="ctext-wrap-content">
+                                                    <p class="mb-0 ctext-content">dWow that's great</p>
+                                                </div>
+                                                <div class="align-self-start message-box-drop dropdown">
+                                                    <a role="button" aria-haspopup="true" class="btn btn-toggle"
+                                                        aria-expanded="false">
+                                                        <i class="ri-more-2-fill"></i></a>
+                                                    <div tabindex="-1" role="menu" aria-hidden="false"
+                                                        class="dropdown-menu show" data-popper-placement="top-start"
+                                                        style="
+                                position: absolute;
+                                inset: auto auto 0px 0px;
+                                transform: translate(0px, -43px);
+                              ">
+                                                        <button type="button" to="#" tabindex="0" role="menuitem"
+                                                            class="d-flex align-items-center justify-content-between dropdown-item">
+                                                            Copy <i class="bx bx-copy text-muted ms-2"></i>
+                                                        </button>
+                                                        <button type="button" to="#" tabindex="0" role="menuitem"
+                                                            class="d-flex align-items-center justify-content-between dropdown-item">
+                                                            Bookmark
+                                                            <i class="bx bx-bookmarks text-muted ms-2"></i>
+                                                        </button>
+                                                        <button type="button" tabindex="0" role="menuitem"
+                                                            class="d-flex align-items-center justify-content-between delete-item dropdown-item">
+                                                            Delete
+                                                            <i class="bx bx-trash text-muted ms-2"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="conversation-name">
+                                                <span class="me-1 text-success"><i
+                                                        class="bx bx-check-double bx-check"></i></span>
+                                                <small class="text-muted mb-0 me-2">05:49pm</small>You
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li> -->
                             </ul>
                         </div>
 
@@ -4537,12 +4689,12 @@
                                             <div class="d-flex align-items-center">
                                                 <div
                                                     class="flex-shrink-0 chat-user-img online  align-self-center me-3">
-                                                    {% comment %} <img src="{% static 'assets/images/users/user-dummy-img.jpg' %}"
-                                                        class="rounded-circle avatar-sm" alt="as" /> {% endcomment %}
+                                                    <img src="{% static 'assets/images/users/user-dummy-img.jpg' %}"
+                                                        class="rounded-circle avatar-sm" alt="as" />
                                                 </div>
                                                 <div class="flex-grow-1 overflow-hidden">
                                                     <h6 class="text-truncate mb-0 font-size-18">
-                                                        <a href="#" class="user-profile-show text-reset">{{conversation}}</a>
+                                                        <a href="#" class="user-profile-show text-reset"></a>
                                                     </h6>
                                                     <p class="text-truncate text-muted mb-0">
                                                         <small></small>
@@ -4631,7 +4783,9 @@
                         <!-- start chat conversation -->
 
                         <div class="chat-conversation p-3 p-lg-4" id="chat-conversation" data-simplebar>
-                            <ul class="list-unstyled chat-conversation-list" id="channel-conversation"></ul>
+                            <ul class="list-unstyled chat-conversation-list" id="channel-conversation">
+                                
+                            </ul>
                         </div>
                         <div class="alert alert-warning alert-dismissible copyclipboard-alert px-4 fade show"
                             id="copyClipBoardChannel" role="alert">
@@ -4899,7 +5053,7 @@
                                         </div>
                                     </div>
                                     <div class="mt-auto p-3">
-                                        <h5 class="user-name mb-1 text-truncate">{{conversation.user}}</h5>
+                                        <h5 class="user-name mb-1 text-truncate">{{user}}</h5>
                                         <p class="font-size-14 text-truncate mb-0">
                                             <i class="bx bxs-circle font-size-10 text-success me-1 ms-0"></i>
                                             Online
@@ -4993,37 +5147,44 @@
                             </div>
                            
                             <div class="pb-2">
-                                <h5 class="font-size-11 text-uppercase mb-2">Conversation Info :</h5>
+                                <h5 class="font-size-11 text-uppercase mb-2">User Info :</h5>
                                 <div>
                                     <div class="d-flex align-items-end">
                                         <div class="flex-grow-1">
-                                            <p class="text-muted font-size-14 mb-1">Created By</p>
+                                            <p class="text-muted font-size-14 mb-1">Username</p>
                                         </div>
                                         
                                     </div>
-                                    <h5 class="font-size-14 text-truncate">{{conversation.user}} </h5>
+                                    <h5 class="font-size-14 text-truncate">{{selected_user}} </h5>
                                 </div>
                                 <div>
                                     <div class="d-flex align-items-end">
                                         <div class="flex-grow-1">
-                                            <p class="text-muted font-size-14 mb-1">Chat Name</p>
+                                            <p class="text-muted font-size-14 mb-1">User Email</p>
                                         </div>
                                         
                                     </div>
-                                    <h5 class="font-size-14 text-truncate">{{conversation.chat_title}} </h5>
+                                    <h5 class="font-size-14 text-truncate">{{selected_user.email}} </h5>
                                 </div>
+                                
     
-                                <div class="mt-4">
-                                    <p class="text-muted font-size-14 mb-1">Creation Date</p>
-                                    <h5 class="font-size-14"> {{conversation.created_at}}</h5>
-                                </div>
-                                <div class="mt-4">
-                                    <p class="text-muted font-size-14 mb-1">Attached Document</p>
-                                    
-                                </div>
+                               
+                            </div>
+                              <hr class="my-4" />
+    
+                          
+    
+    
+                            <div>
                                 <div>
-                                    
-                                    <div class="card p-2 border mb-2 mt-2 bg-transparent">
+                                    <h5 class="font-size-11 text-muted text-uppercase mb-3">
+                                        {{selected_user}}'s Attached Files
+                                    </h5>
+                                </div>
+                                
+                                <div>
+                                    {% for doc in file_list %}
+                                     <div class="card p-2 border mb-2 bg-transparent">
                                         <div class="d-flex align-items-center">
                                             <div class="flex-shrink-0 avatar-xs ms-1 me-3">
                                                 <div class="avatar-title bg-primary-subtle text-primary rounded-circle">
@@ -5032,9 +5193,9 @@
                                             </div>
                                             <div class="flex-grow-1 overflow-hidden">
                                                 <h5 class="font-size-14 text-truncate mb-1">
-                                                    {{document_file}}
+                                                    {{doc.file_name}}
                                                 </h5>
-                                                <p class="text-muted font-size-13 mb-0">{{chat_file_size}}</p>
+                                                <p class="text-muted font-size-13 mb-0">{{doc.file_size}}</p>
                                             </div>
     
                                             <div class="flex-shrink-0 ms-3">
@@ -5052,7 +5213,7 @@
                                                         </a>
                                                         <div class="dropdown-menu dropdown-menu-end">
                                                             <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                                                href="#">conversation
+                                                                href="#">{{doc.chat}}
                                                                 <i class="bx bx-chat ms-2 text-muted"></i></a>
                                                             
                                                             <div class="dropdown-divider"></div>
@@ -5068,19 +5229,12 @@
                                         </div>
                                     </div>
     
-                 
     
+ 
+    {%endfor%}
                                    
                                 </div>
-     
-                               
                             </div>
-                              <hr class="my-4" />
-    
-                          
-    
-    
-                           
                         </div>
                         <!-- end user-profile-desc -->
                     </div>

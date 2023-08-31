@@ -8,10 +8,10 @@
     <title>DataChat</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
-        content="Doot - Responsive Chat App Template in HTML. A fully featured HTML chat messenger template in Bootstrap 5"
+        content="DataChat - A chat Platform where you can communicate with any type of datafile using the OpenAi chat functionality. "
         name="description" />
     <meta name="keywords"
-        content="Doot chat template, chat, web chat template, chat status, chat template, communication, discussion, group chat, message, messenger template, status" />
+        content="DataChat - A chat Platform where you can communicate with any type of datafile using the OpenAi chat functionality. "/>
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="{% static 'assets/images/chat.png'%}" id="tabIcon" />
@@ -2614,7 +2614,7 @@
 
                         <div class="text-center p-3 p-lg-4 border-bottom pt-2 pt-lg-2 mt-n5 position-relative">
                             <div class="mb-3 profile-user">
-                                <img src="{% static 'assets/images/users/avatar-1.jpg'%}"
+                                <img src="{% static 'assets/images/users/user-dummy-img.jpg'%}"
                                     class="rounded-circle avatar-lg img-thumbnail user-profile-image"
                                     alt="user-profile-image" />
                                 <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
@@ -2629,41 +2629,23 @@
 
                             <h5 class="font-size-16 mb-1 text-truncate"></h5>
 
-                            <div class="text-center p-3 p-lg-4 border-bottom pt-2 pt-lg-2 mt-n5 position-relative">
-                                <div class="mb-3 profile-user">
-                                    <img src="{% static 'assets/images/users/user-dummy-img.jpg'%}"
-                                        class="rounded-circle avatar-lg img-thumbnail user-profile-image"
-                                        alt="user-profile-image" />
-                                    <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
-                                        <input id="profile-img-file-input" type="file" class="profile-img-file-input" />
-                                        <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
-                                            <span class="avatar-title rounded-circle bg-light text-body">
-                                                <i class="bx bxs-camera"></i>
-                                            </span>
-                                        </label>
-                                    </div>
-                                </div>
-    
-                                <h5 class="font-size-16 mb-1 text-truncate"></h5>
-    
-                                <div class="dropdown d-inline-block">
-                                    <a class="text-muted dropdown-toggle d-block" href="#" role="button"
-                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="bx bxs-circle text-success font-size-10 align-middle"></i>
-                                        Active <i class="mdi mdi-chevron-down"></i>
-                                    </a>
-    
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="#"><i
-                                                class="bx bxs-circle text-success font-size-10 me-1 align-middle"></i>
-                                            Active</a>
-                                        <a class="dropdown-item" href="#"><i
-                                                class="bx bxs-circle text-warning font-size-10 me-1 align-middle"></i>
-                                            Away</a>
-                                        <a class="dropdown-item" href="#"><i
-                                                class="bx bxs-circle text-danger font-size-10 me-1 align-middle"></i>
-                                            Do not disturb</a>
-                                    </div>
+                            <div class="dropdown d-inline-block">
+                                <a class="text-muted dropdown-toggle d-block" href="#" role="button"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="bx bxs-circle text-success font-size-10 align-middle"></i>
+                                    Active <i class="mdi mdi-chevron-down"></i>
+                                </a>
+
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="#"><i
+                                            class="bx bxs-circle text-success font-size-10 me-1 align-middle"></i>
+                                        Active</a>
+                                    <a class="dropdown-item" href="#"><i
+                                            class="bx bxs-circle text-warning font-size-10 me-1 align-middle"></i>
+                                        Away</a>
+                                    <a class="dropdown-item" href="#"><i
+                                            class="bx bxs-circle text-danger font-size-10 me-1 align-middle"></i>
+                                        Do not disturb</a>
                                 </div>
                             </div>
                         </div>
@@ -2697,13 +2679,9 @@
 
                                             <div class="mt-4">
                                                 <p class="text-muted mb-1">Email</p>
-                                                <h5 class="font-size-14">adc@123.com</h5>
+                                                <h5 class="font-size-14">{{user.email}}</h5>
                                             </div>
 
-                                            <div class="mt-4">
-                                                <p class="text-muted mb-1">Location</p>
-                                                <h5 class="font-size-14 mb-0">California, USA</h5>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -3161,7 +3139,7 @@
                                                         href="#">Muted
                                                         <i class="bx bx-microphone-off text-muted"></i></a>
                                                     <a class="dropdown-item d-flex justify-content-between align-items-center"
-                                                        href="#">Delete <i class="bx bx-trash text-muted"></i></a>
+                                                        href="{% url 'user_delete_chat' conversation.id %}">Delete <i class="bx bx-trash text-muted"></i></a>
                                                 </div>
                                             </div>
                                         </li>
@@ -3761,13 +3739,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="text-muted pt-4">
-                            <h5 class="font-size-11 text-uppercase">Status :</h5>
-                            <p class="mb-4">
-                                If several languages coalesce, the grammar of the resulting.
-                            </p>
-                        </div> -->
-
+                       
                         <div class="pb-2">
                             <h5 class="font-size-11 text-uppercase mb-2">Conversation Info :</h5>
                             <div>
@@ -3839,103 +3811,18 @@
 
                                
                             </div>
-
-                            <!-- <div class="mt-4">
-                                <p class="text-muted font-size-14 mb-1">Location</p>
-                                <h5 class="font-size-14 mb-0">California, USA</h5>
-                            </div> -->
+ 
+                           
                         </div>
-                        <!--   <hr class="my-4" />
+                          <hr class="my-4" />
 
-                      <div>
-                            <div class="d-flex">
-                                <div class="flex-grow-1">
-                                    <h5 class="font-size-11 text-muted text-uppercase">
-                                        Group in common
-                                    </h5>
-                                </div>
-                            </div>
+                      
 
-                            <ul class="list-unstyled chat-list mx-n4">
-                                <li>
-                                    <a href="javascript: void(0);" class="px-0">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-shrink-0 avatar-xs me-2">
-                                                <span class="avatar-title rounded-circle bg-light-subtle text-reset">
-                                                    #
-                                                </span>
-                                            </div>
-                                            <div class="flex-grow-1 overflow-hidden">
-                                                <p class="text-truncate mb-0">Landing Design</p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript: void(0);" class="px-0">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-shrink-0 avatar-xs me-2">
-                                                <span class="avatar-title rounded-circle bg-light-subtle text-reset">
-                                                    #
-                                                </span>
-                                            </div>
-                                            <div class="flex-grow-1 overflow-hidden">
-                                                <p class="text-truncate mb-0">Design Phase 2</p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div> -->
-<!-- 
-                        <hr class="my-4" />
-
-                        <div>
-                            <div class="d-flex">
-                                <div class="flex-grow-1">
-                                    <h5 class="font-size-11 text-muted text-uppercase">
-                                        Media
-                                    </h5>
-                                </div>
-                                <div class="flex-shrink-0">
-                                    <a href="#" class="font-size-12 d-block mb-2">Show all</a>
-                                </div>
-                            </div>
-                            <div class="profile-media-img">
-                                <div class="media-img-list">
-                                    <a href="#">
-                                        <img src="{% static 'assets/images/small/img-1.jpg'%}" alt="media img"
-                                            class="img-fluid" />
-                                    </a>
-                                </div>
-                                <div class="media-img-list">
-                                    <a href="#">
-                                        <img src="{% static 'assets/images/small/img-2.jpg'%}" alt="media img"
-                                            class="img-fluid" />
-                                    </a>
-                                </div>
-                                <div class="media-img-list">
-                                    <a href="#">
-                                        <img src="{% static 'assets/images/small/img-3.jpg'%}" alt="media img"
-                                            class="img-fluid" />
-                                    </a>
-                                </div>
-                                <div class="media-img-list">
-                                    <a href="#">
-                                        <img src="{% static 'assets/images/small/img-4.jpg'%}" alt="media img"
-                                            class="img-fluid" />
-                                        <div class="bg-overlay">+ 15</div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div> -->
-
-                        <hr class="my-4" />
 
                         <div>
                             <div>
                                 <h5 class="font-size-11 text-muted text-uppercase mb-3">
-                                    Attached Files
+                                    {{user}}'s Attached Files
                                 </h5>
                             </div>
                             

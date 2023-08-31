@@ -5,7 +5,7 @@
     <head>
          
         <meta charset="utf-8" />
-        <title>Login | DataChat</title>
+        <title>Admin - Login| DataChat</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta
         content="DataChat - A chat Platform where you can communicate with any type of datafile using the OpenAi chat functionality. "
@@ -52,15 +52,15 @@
                                         <div class="py-md-5 py-4">
                                             
                                             <div class="text-center mb-5">
-                                                <h3>Welcome Back !</h3>
+                                                <h3>Welcome Admin!</h3>
                                                 
                                            
-                                                <p class="text-muted">Sign in to continue to DataChat.</p>
+                                                <p class="text-muted">Login in to continue to DataChat Admin Panel.</p>
                                             </div>
-                                            <form  action="/login" method="POST">
+                                            <form  action="/admin-login-processing" method="POST">
                                                 {% csrf_token%}
                                                 <div class="mb-3">
-                                                    <label for="username" class="form-label">Username</label>
+                                                    <label for="username" class="form-label">Admin Username</label>
                                                     <input type="text" class="form-control" name="loginusername" id="username" placeholder="Enter username">
                                                 </div>
                                                 
@@ -68,7 +68,7 @@
                                                     <div class="float-end">
                                                         <a href="auth-recoverpw.html" class="text-muted">Forgot password?</a>
                                                     </div>
-                                                    <label for="userpassword" class="form-label">Password</label>
+                                                    <label for="userpassword" class="form-label">Admin Password</label>
                                                     <div class="position-relative auth-pass-inputgroup mb-3">
                                                         <input type="password" name="loginpassword" class="form-control pe-5" placeholder="Enter Password" id="password-input">
                                                         <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted" type="submit" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>

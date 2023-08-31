@@ -314,62 +314,7 @@
 
                             <hr class="my-4" /> {% endcomment %}
 
-                            <div>
-                               
-
-                                <div>
-                                    {% for doc in file_list %}
-                                    <div class="card p-2 border mb-2 bg-transparent">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-shrink-0 avatar-xs ms-1 me-3">
-                                                <div class="avatar-title bg-primary-subtle text-primary rounded-circle">
-                                                    <i class="bx bx-file"></i>
-                                                </div>
-                                            </div>
-                                            <div class="flex-grow-1 overflow-hidden">
-                                                <h5 class="font-size-14 text-truncate mb-1">
-                                                    {{doc.file_name}}
-                                                </h5>
-                                                <p class="text-muted font-size-13 mb-0">{{doc.file_size}}</p>
-                                            </div>
-    
-                                            <div class="flex-shrink-0 ms-3">
-                                                <div class="d-flex gap-2">
-                                                    <div>
-                                                        <a href="#" class="text-muted px-1">
-                                                            <i class="bx bxs-download"></i>
-                                                        </a>
-                                                    </div>
-                                                    <div class="dropdown">
-                                                        <a class="dropdown-toggle text-muted px-1" href="#" role="button"
-                                                            data-bs-toggle="dropdown" aria-haspopup="true"
-                                                            aria-expanded="false">
-                                                            <i class="bx bx-dots-horizontal-rounded"></i>
-                                                        </a>
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                                                href="{% url 'chat_detail' conversation_id=doc.conv_id %}">{{doc.chat}}
-                                                                <i class="bx bx-chat ms-2 text-muted"></i></a>
-                                                            
-                                                            <div class="dropdown-divider"></div>
-                                                            <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                                                href="#">Delete
-                                                                <i class="bx bx-trash ms-2 text-muted"></i></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-    
-                                            
-                                        </div>
-                                    </div>
-    
-                                  
-    {% endfor %}
-    
-                                   
-                                </div>
-                            </div>
+                           
                         </div>
                         <!-- end user-profile-desc -->
                     </div>
@@ -383,9 +328,9 @@
                         <div class="px-4 pt-4">
                             <div class="d-flex align-items-start">
                                 <div class="flex-grow-1">
-                                    <h4 class="mb-4">Chats</h4>
+                                    <h4 class="mb-4">{{selected_user}}'s Chats</h4>
                                 </div>
-                                <div class="flex-shrink-0">
+                                {% comment %} <div class="flex-shrink-0">
                                     <div data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="bottom"
                                         title="Add Contact">
                                         <!-- Button trigger modal -->
@@ -394,7 +339,7 @@
                                             <i class="bx bx-plus"></i>
                                         </button>
                                     </div>
-                                </div>
+                                </div> {% endcomment %}
                             </div>
                             <form>
                                 <div class="input-group mb-3">
@@ -421,10 +366,10 @@
                                 <ul class="list-unstyled chat-list chat-user-list" id="favourite-users">
                                     {% for conversation in conversations %}
                                     {% if conversation.created_at.date == today %}
-                                    <li class="mt-3 {% if active_conversation_id == conversation.id %}active{% endif %}">
+                                    <li class="mt-3 {% if active_conversation_id == conversation.id %}active{% endif %}"">
                                         <a class="unread-msg-user"
-                                            href="{% url 'admin-chats' conversation_id=conversation.id %}">
-                                            <div class="d-flex align-items-center">
+                                        href="{% url 'user_chat_view' conversation_id=conversation.id user_id=selected_user.id %}">
+                                        <div class="d-flex align-items-center">
                                                 <div class="chat-user-img align-self-center me-2 ms-0 online">
                                                     <div class="round-name">{{conversation.chat_title|first}}</div>
                                                     
@@ -461,17 +406,16 @@
                     
                                     {% for conversation in conversations %}
                                     {% if conversation.created_at.date == yesterday %}
-                                    <li class="mt-3 {% if active_conversation_id == conversation.id %}active{% endif %}">
+                                    <li class="mt-3 {% if active_conversation_id == conversation.id %}active{% endif %}"">
                                         <a class="unread-msg-user"
-                                            href="{% url 'admin-chats' conversation_id=conversation.id %}">
-                                            <div class="d-flex align-items-center">
+                                        href="{% url 'user_chat_view' conversation_id=conversation.id user_id=selected_user.id %}">
+                                        <div class="d-flex align-items-center">
                                                 <div class="chat-user-img align-self-center me-2 ms-0 online">
                                                     <div class="round-name">{{conversation.chat_title|first}}</div>
                                                     
-                                                    
                                                 </div>
                                                 <div class="overflow-hidden">
-                                                    <p class="text-truncate mb-0">{{ conversation.chat_title|slice:":20" }}</p>
+                                                    <p class="text-truncate mb-0">{{ conversation.chat_title|slice:":20" }}{% if conversation.chat_title|length > 20 %}..{% endif %}</p>
                                                 </div>
 
                                             </div>
@@ -494,16 +438,7 @@
                                         Previous 7 Days
                                     </h4>
                                 </div>
-                                <div class="flex-shrink-0">
-                                    <div data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="bottom"
-                                        title="Create group">
-                                        <!-- Button trigger modal -->
-                                        <button type="button" class="btn btn-soft-primary btn-sm" data-bs-toggle="modal"
-                                            data-bs-target="#addgroup-exampleModal">
-                                            <i class="bx bx-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
+                                
                             </div>
 
                             <div class="chat-message-list">
@@ -511,17 +446,16 @@
                     
                                     {% for conversation in conversations %}
                                     {% if conversation.created_at.date < yesterday %}
-                                    <li class="mt-3 {% if active_conversation_id == conversation.id %}active{% endif %}">
+                                    <li class="mt-3 {% if active_conversation_id == conversation.id %}active{% endif %}"">
                                         <a class="unread-msg-user"
-                                        href="{% url 'admin-chats' conversation_id=conversation.id %}">
+                                        href="{% url 'user_chat_view' conversation_id=conversation.id user_id=selected_user.id %}">
                                         <div class="d-flex align-items-center">
                                                 <div class="chat-user-img align-self-center me-2 ms-0 online">
                                                     <div class="round-name">{{conversation.chat_title|first}}</div>
                                                     
-                                                    
                                                 </div>
                                                 <div class="overflow-hidden">
-                                                    <p class="text-truncate mb-0">{{ conversation.chat_title|slice:":20" }}</p>
+                                                    <p class="text-truncate mb-0">{{ conversation.chat_title|slice:":20" }}{% if conversation.chat_title|length > 20 %}..{% endif %}</p>
                                                 </div>
 
                                             </div>
@@ -3262,7 +3196,7 @@
                         </div>
                         <!-- end p-4 -->
 
-                        <!-- Start contact lists -->
+                        <!-- Start File lists -->
                         <div class="chat-message-list chat-call-list">
                             <ul class="list-unstyled chat-list" id="callList">
                               {% for doc in file_names %}
@@ -3932,12 +3866,12 @@
 
                                             <div>
                                                 <p class="text-muted mb-1">Name</p>
-                                                <h5 class="font-size-14">{{admin.admin_name}}</h5>
+                                                <h5 class="font-size-14">{{user}}</h5>
                                             </div>
 
                                             <div class="mt-4">
                                                 <p class="text-muted mb-1">Email</p>
-                                                <h5 class="font-size-14">{{admin.admin_email}}</h5>
+                                                <h5 class="font-size-14">{{user.email}}</h5>
                                             </div>
 
                                             <!-- <div class="mt-4">
@@ -4321,16 +4255,18 @@
                                                 <div
                                                     class="flex-shrink-0 chat-user-img online  align-self-center me-3 ms-0">
                                                    
-                                                    <img src="{% static 'assets/images/chat.png'%}"
+                                                    <img src="{% static 'assets/images/users/user-dummy-img.jpg'%}"
                                                         class="rounded-circle avatar-sm" alt="" />
                                                    
                                                     <span class="user-status"></span>
                                                 </div>
                                                 <div class="flex-grow-1 overflow-hidden">
                                                     <h6 class="text-truncate mb-0 font-size-18">
-                                                        <a href="#" class="user-profile-show text-reset">{{conversation.chat_title}}</a>
+                                                        <a href="#" class="user-profile-show text-reset">{{conversation}}</a>
                                                     </h6>
-                                                    
+                                                    <p class="text-truncate text-muted mb-0">
+                                                        <small>Online</small>
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -4537,12 +4473,12 @@
                                             <div class="d-flex align-items-center">
                                                 <div
                                                     class="flex-shrink-0 chat-user-img online  align-self-center me-3">
-                                                    {% comment %} <img src="{% static 'assets/images/users/user-dummy-img.jpg' %}"
-                                                        class="rounded-circle avatar-sm" alt="as" /> {% endcomment %}
+                                                    <img src="{% static 'assets/images/users/user-dummy-img.jpg' %}"
+                                                        class="rounded-circle avatar-sm" alt="as" />
                                                 </div>
                                                 <div class="flex-grow-1 overflow-hidden">
                                                     <h6 class="text-truncate mb-0 font-size-18">
-                                                        <a href="#" class="user-profile-show text-reset">{{conversation}}</a>
+                                                        <a href="#" class="user-profile-show text-reset"></a>
                                                     </h6>
                                                     <p class="text-truncate text-muted mb-0">
                                                         <small></small>
@@ -4631,7 +4567,9 @@
                         <!-- start chat conversation -->
 
                         <div class="chat-conversation p-3 p-lg-4" id="chat-conversation" data-simplebar>
-                            <ul class="list-unstyled chat-conversation-list" id="channel-conversation"></ul>
+                            <ul class="list-unstyled chat-conversation-list" id="channel-conversation">
+                                
+                            </ul>
                         </div>
                         <div class="alert alert-warning alert-dismissible copyclipboard-alert px-4 fade show"
                             id="copyClipBoardChannel" role="alert">
@@ -4899,7 +4837,7 @@
                                         </div>
                                     </div>
                                     <div class="mt-auto p-3">
-                                        <h5 class="user-name mb-1 text-truncate">{{conversation.user}}</h5>
+                                        <h5 class="user-name mb-1 text-truncate">{{selected_user}}</h5>
                                         <p class="font-size-14 text-truncate mb-0">
                                             <i class="bx bxs-circle font-size-10 text-success me-1 ms-0"></i>
                                             Online
@@ -4997,12 +4935,23 @@
                                 <div>
                                     <div class="d-flex align-items-end">
                                         <div class="flex-grow-1">
-                                            <p class="text-muted font-size-14 mb-1">Created By</p>
+                                            <p class="text-muted font-size-14 mb-1">Username</p>
                                         </div>
                                         
                                     </div>
-                                    <h5 class="font-size-14 text-truncate">{{conversation.user}} </h5>
+                                    <h5 class="font-size-14 text-truncate">{{selected_user}} </h5>
                                 </div>
+                                <div>
+                                    <div class="d-flex align-items-end">
+                                        <div class="flex-grow-1">
+                                            <p class="text-muted font-size-14 mb-1">User Email</p>
+                                        </div>
+                                        
+                                    </div>
+                                    <h5 class="font-size-14 text-truncate">{{selected_user.email}} </h5>
+                                </div>
+                                
+                                <div class="mt-4">
                                 <div>
                                     <div class="d-flex align-items-end">
                                         <div class="flex-grow-1">
@@ -5010,15 +4959,14 @@
                                         </div>
                                         
                                     </div>
-                                    <h5 class="font-size-14 text-truncate">{{conversation.chat_title}} </h5>
+                                    <h5 class="font-size-14 text-truncate">{{conversation}} </h5>
                                 </div>
     
-                                <div class="mt-4">
                                     <p class="text-muted font-size-14 mb-1">Creation Date</p>
-                                    <h5 class="font-size-14"> {{conversation.created_at}}</h5>
+                                    <h5 class="font-size-14">{{ conversation.created_at}}</h5>
                                 </div>
                                 <div class="mt-4">
-                                    <p class="text-muted font-size-14 mb-1">Attached Document</p>
+                                    <p class="text-muted font-size-14 mb-1">Chat Attached File</p>
                                     
                                 </div>
                                 <div>
@@ -5080,7 +5028,65 @@
                           
     
     
-                           
+                            <div>
+                                <div>
+                                    <h5 class="font-size-11 text-muted text-uppercase mb-3">
+                                        {{selected_user}}'s Attached Files
+                                    </h5>
+                                </div>
+                                
+                                <div>
+                                    {% for doc in file_list %}
+                                    <div class="card p-2 border mb-2 bg-transparent">
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-shrink-0 avatar-xs ms-1 me-3">
+                                                <div class="avatar-title bg-primary-subtle text-primary rounded-circle">
+                                                    <i class="bx bx-file"></i>
+                                                </div>
+                                            </div>
+                                            <div class="flex-grow-1 overflow-hidden">
+                                                <h5 class="font-size-14 text-truncate mb-1">
+                                                    {{doc.file_name}}
+                                                </h5>
+                                                <p class="text-muted font-size-13 mb-0">{{doc.file_size}}</p>
+                                            </div>
+    
+                                            <div class="flex-shrink-0 ms-3">
+                                                <div class="d-flex gap-2">
+                                                    <div>
+                                                        <a href="#" class="text-muted px-1">
+                                                            <i class="bx bxs-download"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div class="dropdown">
+                                                        <a class="dropdown-toggle text-muted px-1" href="#" role="button"
+                                                            data-bs-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="false">
+                                                            <i class="bx bx-dots-horizontal-rounded"></i>
+                                                        </a>
+                                                        <div class="dropdown-menu dropdown-menu-end">
+                                                            <a class="dropdown-item d-flex align-items-center justify-content-between"
+                                                                href="#">{{doc.chat}}
+                                                                <i class="bx bx-chat ms-2 text-muted"></i></a>
+                                                            
+                                                            <div class="dropdown-divider"></div>
+                                                            <a class="dropdown-item d-flex align-items-center justify-content-between"
+                                                                href="#">Delete
+                                                                <i class="bx bx-trash ms-2 text-muted"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                            
+                                        </div>
+                                    </div>
+    
+ {%endfor %}
+    
+                                   
+                                </div>
+                            </div>
                         </div>
                         <!-- end user-profile-desc -->
                     </div>

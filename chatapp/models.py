@@ -15,6 +15,16 @@ class Registeration(models.Model):
         return self.user_name
 
 
+class Registeredadmin(models.Model):
+    
+    admin_id = models.BigAutoField(primary_key=True)
+    admin_name= models.CharField(max_length=255)
+    first_name= models.CharField(max_length=255)
+    last_name= models.CharField(max_length=255)
+    admin_email=models.EmailField(max_length=50)
+    admin_password=models.CharField(max_length= 255)
+    def __str__(self):
+        return self.admin_name
 
 
 from django.contrib.auth.models import User
