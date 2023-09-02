@@ -2,16 +2,18 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
-from chatapp.models import Registeration,Registeredadmin
+from chatapp.models import Registeration,Admin
 from django.http import HttpResponse
 from django.core.mail import send_mail
 import PyPDF2
 import os
 from datetime import datetime,timedelta
+from django.contrib.auth.views import PasswordChangeView
+
 #import magic
 from django.shortcuts import render, redirect
 from .models import Conversation, Message
-from .forms import ConversationForm
+from .forms import ConversationForm, PasswordChangingForm
 #from .models import Conversation,Message
 # Create your views here.
 
@@ -22,6 +24,8 @@ import openai
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
+
 
 
 
@@ -191,12 +195,11 @@ def chat_detail(request, conversation_id):
     user = request.user
     conversations = Conversation.objects.filter(user=user)
     document_file = conversation.document.name
-    
     file_size = os.path.getsize(conversation.document.path)  # Get file size in bytes
     chat_file_size = convert_bytes_to_human_readable(file_size)
-    print(chat_file_size)
     filename = os.path.basename(document_file)
     file_path = os.path.join("media", document_file)
+    print(file_path)
     
     # detected_type = check_file_type(file_path)
     # print(f"Typeeeeeeeeeeeeeee {detected_type}")
@@ -280,7 +283,7 @@ def user_delete_chat(request, conversation_id):
 
 
 #User Main page after login
-
+@login_required
 def home(request):
     today = datetime.today().date()  # Get today's date
     yesterday = today - timedelta(days=1)  # Calculate yesterday's date
@@ -366,8 +369,8 @@ def loginpage(request):
     return render(request, "auth-login.html")
 
 
-def handlelogin(request):
-    if request.method=="POST":
+def handleuserlogin(request):
+   if request.method=="POST":
         loginusername=request.POST['loginusername']
         loginpassword=request.POST['loginpassword']
         user= authenticate(username=loginusername, password=loginpassword)
@@ -383,7 +386,7 @@ def handlelogin(request):
 
 #User Logout
 
-def handlelogout(request):
+def user_logout(request):
     logout(request)
     messages.success(request,"Successfully Logged out")
     return redirect('login-page')
@@ -457,7 +460,7 @@ def adminlogin(request):
 
 
 def handleadminlogin(request):
-    user = Registeredadmin.objects.get(admin_id=1)
+    user = Admin.objects.get(admin_id=1)
     print(user)
     if request.method == "POST":
         loginusername = request.POST['loginusername']
@@ -479,7 +482,7 @@ def handleadminlogin(request):
 
 
 
-def adminlogout(request):
+def admin_logout(request):
     logout(request)
     messages.success(request,"Successfully Logged out")
     return render(request, "admin-login.html")
@@ -501,11 +504,9 @@ def convert_bytes_to_human_readable(bytes):
     return size_formatted
 
 
-from django.contrib.auth.decorators import login_required
-
 @login_required
 def adminpanel(request):
-    admin = Registeredadmin.objects.get(admin_id=1)
+    admin = Admin.objects.get(admin_id=1)
     registration_list=Registeration.objects.all()
     conversations = Conversation.objects.all()
     
@@ -536,7 +537,7 @@ def adminpanel(request):
 
 
 def user_chats_detail(request,user_id):
-    admin = Registeredadmin.objects.get(admin_id=1)
+    admin = Admin.objects.get(admin_id=1)
     registration_list=Registeration.objects.all()
     conversations = Conversation.objects.all()
     document_files=conversations
@@ -579,7 +580,7 @@ def user_chats_detail(request,user_id):
 
 
 def userchatview(request, conversation_id,user_id):
-    admin = Registeredadmin.objects.get(admin_id=1)
+    admin = Admin.objects.get(admin_id=1)
     active_conversation = get_object_or_404(Conversation, id=conversation_id)
     active_conversation_id= active_conversation.id
     active_conversation_title=active_conversation.chat_title
@@ -670,7 +671,7 @@ def adminchats(request,conversation_id):
     
     conversation = Conversation.objects.get(id=conversation_id)
     messages = Message.objects.filter(conversation=conversation)
-    admin = Registeredadmin.objects.get(admin_id=1)
+    admin = Admin.objects.get(admin_id=1)
     registration_list=Registeration.objects.all()
     conversations = Conversation.objects.all()
     
@@ -704,3 +705,18 @@ def adminchats(request,conversation_id):
     
     return render(request, 'admin-panel.html',params)
     
+
+def handling404(request,exception):
+    return render(request,'404.html',{})
+from django.urls import reverse_lazy
+
+
+class PasswordChangeView(PasswordChangeView):
+    template_name ="auth-changepassword.html"
+    success_url = reverse_lazy('password_success')
+
+def password_success(request):
+    logout(request)
+    messages.warning(request, "Password Changed!, Please try again using New Password")
+           
+    return redirect('login-page')

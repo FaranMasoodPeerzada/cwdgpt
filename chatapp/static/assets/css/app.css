@@ -2111,4 +2111,6 @@ body[data-bs-theme=dark] .chat-conversation .right .conversation-list .ctext-wra
   z-index: 9;
   background-color: var(--bs-secondary-bg);
   padding: 2px 16px;
+} background-color: var(--bs-secondary-bg);
+  padding: 2px 16px;
 }

@@ -160,7 +160,7 @@
                                 id="pills-setting-tab" data-bs-toggle="pill" href="#pills-setting" role="tab">Setting <i
                                     class="bx bx-cog text-muted ms-1"></i></a>
                             <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                href="auth-changepassword.html">Change Password
+                                href="{% url 'change-password' %}">Change Password
                                 <i class="bx bx-lock-open text-muted ms-1"></i></a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item d-flex align-items-center justify-content-between" href="logout">Log
@@ -345,11 +345,11 @@
                                                             <a class="dropdown-item d-flex align-items-center justify-content-between"
                                                                 href="{% url 'chat_detail' conversation_id=doc.conv_id %}">{{doc.chat}}
                                                                 <i class="bx bx-chat ms-2 text-muted"></i></a>
-                                                            
+<!--                                                             
                                                             <div class="dropdown-divider"></div>
                                                             <a class="dropdown-item d-flex align-items-center justify-content-between"
                                                                 href="#">Delete
-                                                                <i class="bx bx-trash ms-2 text-muted"></i></a>
+                                                                <i class="bx bx-trash ms-2 text-muted"></i></a> -->
                                                         </div>
                                                     </div>
                                                 </div>
@@ -415,8 +415,8 @@
                             <div class="chat-message-list">
                                 <!-- Start Favourite chat-message-list -->
 
-                                <ul class="list-unstyled chat-list chat-user-list" id="favourite-users">
-                                    {% for conversation in conversations %}
+                                <ul class="list-unstyled chat-list chat-user-list" >
+                                     {% for conversation in conversations %}
                                     {% if conversation.created_at.date == today %}
                                     <li class="mt-3">
                                         <a class="unread-msg-user"
@@ -454,10 +454,10 @@
                             </div>
 
                             <div class="chat-message-list">
-                                <ul class="list-unstyled chat-list chat-user-list" id="usersList">
+                                <ul class="list-unstyled chat-list chat-user-list" >
                                     <!-- Start Favourite chat-message-list -->
                                     
-                                        <ul class="list-unstyled chat-list chat-user-list" id="favourite-users">
+                                        <ul class="list-unstyled chat-list chat-user-list" >
                                             {% for conversation in conversations %}
                                                 {% if conversation.created_at.date == yesterday %}
                                                                        <li class="mt-3">
@@ -483,7 +483,7 @@
                                             </a>
                                         </li>
                                                 {% endif %}
-                                            {% endfor %}
+                                            {% endfor %} 
                                         </ul>
                                     </div>
                                     
@@ -498,8 +498,8 @@
                             </div>
 
                             <div class="chat-message-list">
-                                <ul class="list-unstyled chat-list chat-user-list mb-3" id="channelList">
-                    
+                                <ul class="list-unstyled chat-list chat-user-list mb-3">
+                  
                                         {% for conversation in conversations %}
                                         {% if conversation.created_at.date < yesterday %}
                                         <li class="mt-3 {% if active_conversation_id == conversation.id %}active{% endif %}">
@@ -524,7 +524,7 @@
                                         </li>
                                         {% endif %}
                                 {% endfor %}
-    
+   
     
                                 </ul>
                             </div>
@@ -3281,7 +3281,7 @@
                                                 </div>
                                             </div>
                                         </li>
-
+<!-- 
                                         <li class="list-inline-item d-none d-lg-inline-block me-2 ms-0">
                                             <button type="button" class="btn nav-btn" data-bs-toggle="modal"
                                                 data-bs-target=".audiocallModal">
@@ -3294,9 +3294,9 @@
                                                 data-bs-target=".videocallModal">
                                                 <i class="bx bx-video"></i>
                                             </button>
-                                        </li>
+                                        </li> -->
 
-                                        <li class="list-inline-item d-none d-lg-inline-block me-2 ms-0">
+                                        <li class="list-inline-item d-none d-lg-inline-block me-2 ms-0" title="Profile Info">
                                             <button type="button" class="btn nav-btn user-profile-show">
                                                 <i class="bx bxs-info-circle"></i>
                                             </button>
@@ -4164,7 +4164,7 @@
                         <div>
                             <div>
                                 <h5 class="font-size-11 text-muted text-uppercase mb-3">
-                                    Attached Files
+                                    {{user}}'s Attached Files
                                 </h5>
                             </div>
                             
@@ -4201,11 +4201,11 @@
                                                         <a class="dropdown-item d-flex align-items-center justify-content-between"
                                                             href="{% url 'chat_detail' conversation_id=doc.conv_id %}">{{doc.chat}}
                                                             <i class="bx bx-chat ms-2 text-muted"></i></a>
-                                                        
+<!--                                                         
                                                         <div class="dropdown-divider"></div>
                                                         <a class="dropdown-item d-flex align-items-center justify-content-between"
                                                             href="#">Delete
-                                                            <i class="bx bx-trash ms-2 text-muted"></i></a>
+                                                            <i class="bx bx-trash ms-2 text-muted"></i></a> -->
                                                     </div>
                                                 </div>
                                             </div>

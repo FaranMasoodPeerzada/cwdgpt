@@ -166,7 +166,7 @@
                                 <i class="bx bx-lock-open text-muted ms-1"></i></a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                href="logout">Log out <i
+                                href="/logout">Log out <i
                                     class="bx bx-log-out-circle text-muted ms-1"></i></a>
                         </div>
                     </li>
@@ -348,11 +348,11 @@
                                                             <a class="dropdown-item d-flex align-items-center justify-content-between"
                                                                 href="{% url 'chat_detail' conversation_id=doc.conv_id %}">{{doc.chat}}
                                                                 <i class="bx bx-chat ms-2 text-muted"></i></a>
-                                                            
+                                                            <!--
                                                             <div class="dropdown-divider"></div>
-                                                            <a class="dropdown-item d-flex align-items-center justify-content-between"
+                                                             <a class="dropdown-item d-flex align-items-center justify-content-between"
                                                                 href="#">Delete
-                                                                <i class="bx bx-trash ms-2 text-muted"></i></a>
+                                                                <i class="bx bx-trash ms-2 text-muted"></i></a> -->
                                                         </div>
                                                     </div>
                                                 </div>
@@ -416,7 +416,7 @@
 
     <div class="chat-message-list">
     <!-- Start Favourite chat-message-list -->
-   <ul class="list-unstyled chat-list chat-user-list" id="favourite-users">
+   <ul class="list-unstyled chat-list chat-user-list" id="favourite-userss">
     {% for conversation in conversations %}
     {% if conversation.created_at.date == today %}
     <li class="mt-3 {% if active_conversation_id == conversation.id %}active{% endif %}">
@@ -461,7 +461,7 @@
                             </div>
 
                             <div class="chat-message-list">
-                                <ul class="list-unstyled chat-list chat-user-list" id="usersList">
+                                <ul class="list-unstyled chat-list chat-user-list" id="usersLists">
                                         {% for conversation in conversations %}
                                         {% if conversation.created_at.date == yesterday %}
                                         <li class="mt-3 {% if active_conversation_id == conversation.id %}active{% endif %}">
@@ -504,7 +504,7 @@
                             </div>
 
                             <div class="chat-message-list">
-                                <ul class="list-unstyled chat-list chat-user-list mb-3" id="channelList">
+                                <ul class="list-unstyled chat-list chat-user-list mb-3" id="channelListss">
                     
                                         {% for conversation in conversations %}
                                         {% if conversation.created_at.date < yesterday %}
@@ -3095,21 +3095,21 @@
                                             </div>
                                         </li>
 
-                                        <li class="list-inline-item d-none d-lg-inline-block me-2 ms-0">
+                                        <li class="list-inline-item d-none d-lg-inline-block me-2 ms-0"title="Attached File Info">
                                             <button type="button" class="btn nav-btn" data-bs-toggle="modal"
                                                 data-bs-target=".audiocallModal">
                                                 <i class="bx bxs-file"></i>
                                             </button>
                                         </li>
 
-                                        <li class="list-inline-item d-none d-lg-inline-block me-2 ms-0">
+                                        <!-- <li class="list-inline-item d-none d-lg-inline-block me-2 ms-0">
                                             <button type="button" class="btn nav-btn" data-bs-toggle="modal"
                                                 data-bs-target=".videocallModal">
                                                 <i class="bx bx-video"></i>
                                             </button>
-                                        </li>
+                                        </li> -->
 
-                                        <li class="list-inline-item d-none d-lg-inline-block me-2 ms-0">
+                                        <li class="list-inline-item d-none d-lg-inline-block me-2 ms-0 "title="Chat Info">
                                             <button type="button" class="btn nav-btn user-profile-show">
                                                 <i class="bx bxs-info-circle"></i>
                                             </button>
@@ -3169,8 +3169,8 @@
 
                         <!-- start chat conversation -->
 
-                        <div class="chat-conversation p-3 p-lg-4 position-relative" id="chat-conversation" data-simplebar>
-                            <ul class="list-unstyled chat-conversation-list" id="users-conversation">
+                        <div class="chat-conversation p-3 p-lg-4 position-relative" id="chat-conversations" data-simplebar>
+                            <ul class="list-unstyled chat-conversation-list" id="users-conversations">
                                 <!-- Sample conversation messages -->
                                 {% for message in messages %}
                                                       <li class="chast-list right">

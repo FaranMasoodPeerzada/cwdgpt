@@ -608,7 +608,7 @@ const FgEmojiPicker = function (options) {
 
                                     // Loop through emoji items
                                     categories.forEach(item => {
-                                        innerLists += `<li data-name="${item.description.toLowerCase()}"><a class="fg-emoji-picker-item" title="${item.description}" data-name="${item.description.toLowerCase()}" data-code="${item.code}" href="../../../../assets/libs/fg-emoji-picker/${item.emoji}">${item.emoji}</a></li>`;
+                                        innerLists += `<li data-name="${item.description.toLowerCase()}"><a class="fg-emoji-picker-item" title="${item.description}" data-name="${item.description.toLowerCase()}" data-code="${item.code}" href="${item.emoji}">${item.emoji}</a></li>`;
                                     });
                                     innerLists += `
                                 </div>
@@ -649,7 +649,7 @@ const FgEmojiPicker = function (options) {
 
                                         // Loop through emoji items
                                         categories.forEach(item => {
-                                            innerLists += `<li data-name="${item.description.toLowerCase()}"><a class="fg-emoji-picker-item" title="${item.description}" data-name="${item.description.toLowerCase()}" data-code="${item.code}" href="../../../../assets/libs/fg-emoji-picker/${item.emoji}">${item.emoji}</a></li>`;
+                                            innerLists += `<li data-name="${item.description.toLowerCase()}"><a class="fg-emoji-picker-item" title="${item.description}" data-name="${item.description.toLowerCase()}" data-code="${item.code}" href="${item.emoji}">${item.emoji}</a></li>`;
                                         })
 
                                         innerLists += `

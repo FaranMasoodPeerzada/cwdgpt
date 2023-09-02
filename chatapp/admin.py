@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Registeration, Registeredadmin
+from .models import Registeration, Admin
 
 from .models import Conversation, Message
 
@@ -8,7 +8,7 @@ from .models import Conversation, Message
 admin.site.register(Registeration)
 
 
-admin.site.register(Registeredadmin)
+admin.site.register(Admin)
 
 
 admin.site.register(Conversation)

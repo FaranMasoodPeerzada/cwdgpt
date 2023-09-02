@@ -1,0 +1,64 @@
+{% load static%}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>404 Not Found</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Page not found" name="description" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="{% static 'assets/images/favicon.ico'%}" id="tabIcon">
+    <!-- Bootstrap Css -->
+    <link href="{% static 'assets/css/bootstrap.min.css'%}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <!-- Icons Css -->
+    <link href="{% static 'assets/css/icons.min.css'%}" rel="stylesheet" type="text/css" />
+    <!-- App Css-->
+    <link href="{% static 'assets/css/app.min.css'%}" id="app-style" rel="stylesheet" type="text/css" />
+    <style>
+        .error-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .error-text {
+            font-size: 5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .back-button {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body data-bs-theme="dark">
+
+    <div class="layout-wrapper d-lg-flex">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center error-container">
+                    <h1 class="display-1 error-text">404</h1>
+                    <p class="text-muted">Page Not Found</p>
+                    <a href="/" class="btn btn-primary back-button"><i class="mdi mdi-home"></i> Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script src="{% static 'assets/libs/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+    <script src="{% static 'assets/libs/simplebar/simplebar.min.js'%}"></script>
+    <script src="{% static 'assets/libs/node-waves/waves.min.js'%}"></script>
+
+    <!-- theme-style init -->
+    <script src="{% static 'assets/js/pages/theme-style.init.js'%}"></script>
+    <script src="{% static 'assets/js/app.js'%}"></script>
+
+</body>
+
+</html>

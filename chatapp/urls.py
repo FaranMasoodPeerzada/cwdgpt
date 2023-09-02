@@ -13,13 +13,15 @@ urlpatterns= [
     # path('home/<int:conversation_id>/',views.message_list,name='message_list'),
     path('signup',views.handlesignup,name='signup'),
     path('login-page',views.loginpage,name='login-page'),
-    path('login',views.handlelogin,name='login'),
-    path('logout',views.handlelogout,name='logout'),
+    path('login',views.handleuserlogin,name='login'),
+    path('logout',views.user_logout,name='logout'),
     path('admin-login',views.adminlogin,name='admin-login'),
     path('admin-login-processing',views.handleadminlogin,name='admin-login-processing'),
+    path('change_password',views.PasswordChangeView.as_view(),name='change-password'),
+     path('password_success',views.password_success,name='password_success'),
+   
     
-    
-    path('admin-logout',views.adminlogout,name='admin-logout'),
+    path('admin-logout',views.admin_logout,name='admin-logout'),
     path('admin-panel',views.adminpanel,name='admin-panel'),
     
     path('admin-chats/<int:conversation_id>/', views.adminchats, name='admin-chats'),
@@ -30,3 +32,4 @@ urlpatterns= [
     path('deleteuser/<int:id>/', views.delete_user, name='delete_user'),
   
 ]
+handler404='chatapp.views.handling404'

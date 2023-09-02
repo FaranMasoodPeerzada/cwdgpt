@@ -1,8 +1,8 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-
 User = get_user_model()
 
+from django.contrib.auth.hashers import make_password
 
 class Registeration(models.Model):
     user_id = models.BigAutoField(primary_key=True)
@@ -11,11 +11,18 @@ class Registeration(models.Model):
     last_name= models.CharField(max_length=255)
     user_email=models.EmailField(max_length=50)
     user_password=models.CharField(max_length= 255)
+    def save(self, *args, **kwargs):
+        # Hash the password before saving
+        self.user_password = make_password(self.user_password)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.user_name
     def __str__(self):
         return self.user_name
 
 
-class Registeredadmin(models.Model):
+class Admin(models.Model):
     
     admin_id = models.BigAutoField(primary_key=True)
     admin_name= models.CharField(max_length=255)
@@ -23,6 +30,12 @@ class Registeredadmin(models.Model):
     last_name= models.CharField(max_length=255)
     admin_email=models.EmailField(max_length=50)
     admin_password=models.CharField(max_length= 255)
+
+    def save(self, *args, **kwargs):
+        # Hash the password before saving
+        self.admin_password = make_password(self.admin_password)
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.admin_name
 
