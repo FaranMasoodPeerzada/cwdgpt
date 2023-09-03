@@ -31,6 +31,41 @@ from django.contrib.auth.decorators import login_required
 
 
 
+
+
+
+
+
+
+
+
+
+def chat_list(request):
+    conversations = Conversation.objects.all()
+    return render(request, 'chat_list.html', {'conversations': conversations})
+
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from .models import Conversation, Message
+
+def get_chat_messages(request, conversation_id):
+    print('yes')
+    conversation = get_object_or_404(Conversation, id=conversation_id)
+    messages = Message.objects.filter(conversation=conversation)
+    print(f'messages {messages}')
+    # Serialize the messages data
+    message_data = [{'user': message.text, 'content': message.response, 'created_at': message.created_at} for message in messages]
+
+    return JsonResponse({'messages': message_data})
+
+
+
+
+
+
+
+
+
 # views.py
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
@@ -376,8 +411,8 @@ def handleuserlogin(request):
         user= authenticate(username=loginusername, password=loginpassword)
         if user is not None:
             login(request, user)
-            return redirect('home')
             messages.success(request,"Successfully Logged In")
+            return redirect('home')
             
         else:
             messages.warning(request,"Invalid Credentials , Please try again")

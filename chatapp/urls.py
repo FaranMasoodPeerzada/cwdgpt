@@ -3,6 +3,8 @@ from . import views
 
 urlpatterns= [
 
+    path('asd', views.chat_list, name='chat-list'),
+    path('get_chat_messages/<int:conversation_id>/', views.get_chat_messages, name='get-chat-messages'),
     path('',views.register,name='registeration'),
     #path('start-chat/', views.start_chat, name='start_chat'),
     path('chat/<int:conversation_id>/', views.chat_detail, name='chat_detail'),

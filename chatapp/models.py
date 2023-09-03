@@ -11,13 +11,13 @@ class Registeration(models.Model):
     last_name= models.CharField(max_length=255)
     user_email=models.EmailField(max_length=50)
     user_password=models.CharField(max_length= 255)
-    def save(self, *args, **kwargs):
-        # Hash the password before saving
-        self.user_password = make_password(self.user_password)
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     # Hash the password before saving
+    #     self.user_password = make_password(self.user_password)
+    #     super().save(*args, **kwargs)
 
-    def __str__(self):
-        return self.user_name
+    # def __str__(self):
+    #     return self.user_name
     def __str__(self):
         return self.user_name
 
