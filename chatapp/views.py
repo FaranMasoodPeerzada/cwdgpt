@@ -123,8 +123,9 @@ from langchain.chains import RetrievalQA, ConversationalRetrievalChain
 from langchain.chains.conversation.memory import ConversationBufferMemory
 import os
 from langchain.prompts import PromptTemplate
-from dotenv import load_dotenv
-load_dotenv()
+import dotenv
+
+dotenv.load_dotenv()
 openai_api_key = os.environ.get('OPENAI_API_KEY')
 
 
