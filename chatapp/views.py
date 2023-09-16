@@ -10,7 +10,6 @@ import os
 from datetime import datetime,timedelta
 from django.contrib.auth.views import PasswordChangeView
 
-#import magic
 from django.shortcuts import render, redirect
 from .models import Conversation, Message
 from .forms import ConversationForm, PasswordChangingForm
@@ -37,6 +36,11 @@ from django.contrib.auth.decorators import login_required
 
 
 
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from .models import Conversation, Message
+
+
 
 
 
@@ -44,9 +48,6 @@ def chat_list(request):
     conversations = Conversation.objects.all()
     return render(request, 'chat_list.html', {'conversations': conversations})
 
-from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
-from .models import Conversation, Message
 
 def get_chat_messages(request, conversation_id):
     print('yes')
@@ -57,7 +58,6 @@ def get_chat_messages(request, conversation_id):
     message_data = [{'user': message.text, 'content': message.response, 'created_at': message.created_at} for message in messages]
 
     return JsonResponse({'messages': message_data})
-
 
 
 
@@ -90,14 +90,33 @@ import os
 #     answer = response.choices[0].message.content.strip()
 #     return answer
 
+from dotenv import load_dotenv
+from langchain.document_loaders import DirectoryLoader, TextLoader
+from langchain.embeddings import OpenAIEmbeddings
+from langchain.text_splitter import CharacterTextSplitter
+from langchain.vectorstores import Chroma
+from langchain.chains import RetrievalQA, ConversationalRetrievalChain
+from langchain.llms import OpenAI
+import textwrap
+from langchain.chat_models import ChatOpenAI
+import os
 
+from langchain.chains.conversation.memory import ConversationBufferMemory
+from langchain.prompts import PromptTemplate
 
 
 from PyPDF2 import PdfReader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import FAISS
-import textwrap
+from langchain import PromptTemplate, FAISS
+from langchain.chains import ConversationalRetrievalChain
+from langchain.embeddings import OpenAIEmbeddings
+from langchain.chat_models import ChatOpenAI
+import os
+from langchain.document_loaders import CSVLoader
+from langchain.chains.conversation.memory import ConversationBufferMemory
+import chardet
 
 from langchain.chat_models import ChatOpenAI
 from langchain.chains import RetrievalQA, ConversationalRetrievalChain
@@ -107,17 +126,111 @@ from langchain.prompts import PromptTemplate
 from dotenv import load_dotenv
 load_dotenv()
 openai_api_key = os.environ.get('OPENAI_API_KEY')
-#print(openai_api_key)
-# import openai
-
-# # Set your OpenAI API key
-# openai.api_key = openai_api_key
 
 
+
+
+#Text wrapping code
 def print_wrapped_text(text, line_width=80):
     wrapped_text = textwrap.fill(text, width=line_width)
     return wrapped_text
-def datachatpdf(file_path,user_message):
+
+#Read Pdf code
+def read_pdf(pdf_path):
+    with open(pdf_path, 'rb') as pdf_file:
+        pdf_reader = PyPDF2.PdfReader(pdf_file)
+        num_pages = len(pdf_reader.pages)
+        
+        pdf_text = ""
+        for page_num in range(num_pages):
+            page = pdf_reader.pages[page_num]
+            pdf_text += page.extract_text()
+
+    return pdf_text
+
+
+
+#Encoding detection code
+def detect_csv_encoding(file_path):
+    # Detect the encoding of the CSV file
+    with open(file_path, "rb") as f:
+        rawdata = f.read()
+    result = chardet.detect(rawdata)
+    return result["encoding"]
+
+#Csv Memory Loading to keep History
+csv_memory = ConversationBufferMemory(memory_key='chat_history', k=10, return_messages=True, output_key='answer')
+
+#Code to chat with a Csv File
+def datachat_process_csv(file_path,user_message):
+    os.environ['OPENAI_API_KEY'] = "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"
+    encoding = detect_csv_encoding(file_path)
+    print(encoding)
+
+    loader = CSVLoader(file_path=file_path, encoding=encoding)
+    data = loader.load()
+    length = len(data)
+    embeddings = OpenAIEmbeddings()
+    vectorstore = FAISS.from_documents(data, embeddings)
+
+    prompt_template = """you are helpful assistant for my documents.
+        {context}
+        Question:{question}
+        Thought: I should look at the data in the csv file to see what I can query based on the question and history.  
+        Answer here:"""
+
+    PROMPT = PromptTemplate(template=prompt_template, input_variables=["context", "question"])
+
+    chain = ConversationalRetrievalChain.from_llm(
+        llm=ChatOpenAI(temperature=0.0, model="gpt-3.5-turbo-16k"),
+        # agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+        # verbose=True,
+        memory=csv_memory,
+        retriever=vectorstore.as_retriever(search_kwargs={"k": length}),
+        combine_docs_chain_kwargs={"prompt": PROMPT},
+       )
+
+    response = chain({"question": user_message})
+    answer = response['answer']
+    return answer
+
+
+
+
+
+
+#Code to chat with a Text File
+
+def datachat_process_text(file_path,user_message):
+    loader= TextLoader(file_path)
+    documents = loader.load()
+    text_splitter = CharacterTextSplitter(chunk_size=2000, chunk_overlap=0)
+    texts = text_splitter.split_documents(documents)
+    embeddings = OpenAIEmbeddings()
+
+    docsearch = Chroma.from_documents(texts, embeddings)
+    memory = ConversationBufferMemory(memory_key='chat_history', return_messages=True, output_key='answer')
+    prompt_template = """you are helpful assistant for my documents.
+    {context}
+    Question:{question}
+    Answer here:"""
+    PROMPT = PromptTemplate(
+        template=prompt_template, input_variables=["context", "question"]
+    )
+    chain_type_kwargs = {"prompt": PROMPT}
+    qa = ConversationalRetrievalChain.from_llm(
+        llm=ChatOpenAI(temperature=0, model="gpt-3.5-turbo-0613"),
+        memory=memory,
+        retriever=docsearch.as_retriever(),
+        combine_docs_chain_kwargs={"prompt": PROMPT},
+    )
+    response = qa.run(question=user_message)
+    print(f" Memory data:  {memory.load_memory_variables({})}")
+    return print_wrapped_text(response)
+
+
+# Code to chat with a PDF file
+def datachat_process_pdf(file_path,user_message):
     pdf_reader = PdfReader(file_path)
     text = ""
     for page in pdf_reader.pages:
@@ -150,55 +263,33 @@ def datachatpdf(file_path,user_message):
     return print_wrapped_text(response)
 
 
+#Code to detect File Type
+def detect_file_type(file_path):
+    file_extension = os.path.splitext(file_path)[-1].lower()
+    if file_extension == '.pdf':
+        return 'pdf'
+    elif file_extension == '.txt':
+        return 'text'
+    elif file_extension == '.csv':
+        return 'csv'
+    else:
+        return 'unknown'
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# def start_chat(request):
-#     if request.method == 'POST':
-#         form = ConversationForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             conversation = form.save(commit=False)
-#             conversation.user = request.user
-#             conversation.save()
-#             return redirect('chat_detail', conversation_id=conversation.id)
-#     else:
-#         form = ConversationForm()
-#     return render(request, 'start_chat.html', {'form': form})
-
-# def check_file_type(file_path):
-#     mime = magic.Magic()
-#     file_type = mime.from_file(file_path)
-#     return file_type
-
-def read_pdf(pdf_path):
-    with open(pdf_path, 'rb') as pdf_file:
-        pdf_reader = PyPDF2.PdfReader(pdf_file)
-        num_pages = len(pdf_reader.pages)
-        
-        pdf_text = ""
-        for page_num in range(num_pages):
-            page = pdf_reader.pages[page_num]
-            pdf_text += page.extract_text()
-
-    return pdf_text
-
-
+#Code to select specific chat option based on the file type
+def datachat(file_path, user_message):
+    file_type = detect_file_type(file_path)
+    print(f"file type {file_type}")
+    
+    if file_type == 'pdf':
+        return datachat_process_pdf(file_path, user_message)
+    elif file_type == 'text':
+        return datachat_process_text(file_path, user_message)
+    elif file_type == 'csv':
+        return datachat_process_csv(file_path, user_message)
+    else:
+        return "Unsupported file type. Please provide a PDF, text, or CSV file."
 
 
 
@@ -234,12 +325,8 @@ def chat_detail(request, conversation_id):
     chat_file_size = convert_bytes_to_human_readable(file_size)
     filename = os.path.basename(document_file)
     file_path = os.path.join("media", document_file)
-    print(file_path)
-    
-    # detected_type = check_file_type(file_path)
-    # print(f"Typeeeeeeeeeeeeeee {detected_type}")
-    # pdf_text = read_pdf(file_path)
-    # print(pdf_text)
+    print(f'type {file_path}')
+        
     if request.method == 'POST':
         form_type= request.POST.get('form_type')
         if form_type == 'chat_form':
@@ -258,10 +345,8 @@ def chat_detail(request, conversation_id):
     
     if request.method == 'POST':
           user_message = request.POST.get('message')
-          response=datachatpdf(file_path,user_message)
-          #response=ask_openai(user_message)
-          print(user_message)
-          
+          response=datachat(file_path,user_message)
+                   
           if user_message:
                 message = Message.objects.create(
                 conversation=conversation,
@@ -270,9 +355,7 @@ def chat_detail(request, conversation_id):
                 is_user_message=True
              )
                 return JsonResponse({'message':user_message, 'response':response})
-            # Call ChatGPT API to generate AI response and create a message
-            # Save AI-generated response message
-            # messages.append(message)  # Add the AI-generated message to the list
+            
     
     return render(request, 'tester.html', {'conversations': conversations,'conversation': conversation, 'messages': messages,'form': form, 'today':today, 'yesterday':yesterday,'active_conversation_id':active_conversation_id, 'document_file':filename,'file_list':file_list, 'chat_file_size':chat_file_size})
 
@@ -496,7 +579,7 @@ def adminlogin(request):
 
 def handleadminlogin(request):
     user = Admin.objects.get(admin_id=1)
-    print(user)
+    print(f"usersss {user}{user.admin_id}  ")
     if request.method == "POST":
         loginusername = request.POST['loginusername']
         loginpassword = request.POST['loginpassword']

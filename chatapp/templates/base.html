@@ -5,13 +5,13 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>DataChat</title>
+    <title>LeggoData</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
-    content="DataChat - A chat Platform where you can communicate with any type of datafile using the OpenAi chat functionality. "
+    content="LeggoData - A chat Platform where you can communicate with any type of datafile using the OpenAi chat functionality. "
     name="description" />
 <meta name="keywords"
-    content="DataChat - A chat Platform where you can communicate with any type of datafile using the OpenAi chat functionality. "/>
+    content="LeggoData - A chat Platform where you can communicate with any type of datafile using the OpenAi chat functionality. "/>
 <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="{% static 'assets/images/chat.png'%}" id="tabIcon" />
@@ -3224,7 +3224,7 @@
         <!-- end chat-leftsidebar -->
 
         <!-- Start User chat -->
-        <div class="user-chat w-100 overflow-hidden">
+        <div  class="user-chat w-100 overflow-hidden">
             <div class="user-chat-overlay"></div>
 
             <div class="chat-content d-lg-flex">
@@ -3672,7 +3672,100 @@
 
                         <div class="chat-conversation p-3 p-lg-4" id="chat-conversation" data-simplebar>
                             <ul class="list-unstyled chat-conversation-list" id="channel-conversation">
-
+                                <li class="chat-list right">
+                                    <div class="conversation-list">
+                                        <div class="chat-avatar">
+                                            <div class="round-image">C</div>
+                                        </div>
+                                        <div class="user-chat-content">
+                                            <div class="ctext-wrap">
+                                                <div class="ctext-wrap-content">
+                                                    <p class="mb-0 ctext-content">dWow that's great</p>
+                                                </div>
+                                                <div class="align-self-start message-box-drop dropdown">
+                                                    <a role="button" aria-haspopup="true" class="btn btn-toggle"
+                                                        aria-expanded="false">
+                                                        <i class="ri-more-2-fill"></i></a>
+                                                    <div tabindex="-1" role="menu" aria-hidden="false"
+                                                        class="dropdown-menu show" data-popper-placement="top-start"
+                                                        style="
+                                position: absolute;
+                                inset: auto auto 0px 0px;
+                                transform: translate(0px, -43px);
+                              ">
+                                                        <button type="button" to="#" tabindex="0" role="menuitem"
+                                                            class="d-flex align-items-center justify-content-between dropdown-item">
+                                                            Copy <i class="bx bx-copy text-muted ms-2"></i>
+                                                        </button>
+                                                        <button type="button" to="#" tabindex="0" role="menuitem"
+                                                            class="d-flex align-items-center justify-content-between dropdown-item">
+                                                            Bookmark
+                                                            <i class="bx bx-bookmarks text-muted ms-2"></i>
+                                                        </button>
+                                                        <button type="button" tabindex="0" role="menuitem"
+                                                            class="d-flex align-items-center justify-content-between delete-item dropdown-item">
+                                                            Delete
+                                                            <i class="bx bx-trash text-muted ms-2"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="conversation-name">
+                                                <span class="me-1 text-success"><i
+                                                        class="bx bx-check-double bx-check"></i></span>
+                                                <small class="text-muted mb-0 me-2">05:49pm</small>You
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="chat-list">
+                                    <div class="conversation-list">
+                                        <div class="data-chat-avatar">
+                                            <img src="{% static 'assets/images/chat.png'%}" alt="Your Logo" width="50"
+                                                height="50" class="mr-2" />
+                                        </div>
+                                        <div class="user-chat-content">
+                                            <div class="ctext-wrap">
+                                                <div class="ctext-wrap-content">
+                                                    <p class="mb-0 ctext-content">
+                                                        eYeah everything is fine. Our next meeting
+                                                        tomorrow at 10.00 AM
+                                                    </p>
+                                                </div>
+                                                <div class="align-self-start message-box-drop dropdown">
+                                                    <a role="button" aria-haspopup="true" class="btn btn-toggle"
+                                                        aria-expanded="false">
+                                                        <i class="ri-more-2-fill"></i></a>
+                                                    <div tabindex="-1" role="menu" aria-hidden="false"
+                                                        class="dropdown-menu show" data-popper-placement="top-start"
+                                                        style="
+                                position: absolute;
+                                inset: auto auto 0px 0px;
+                                transform: translate(0px, -43px);
+                              ">
+                                                        <button type="button" to="#" tabindex="0" role="menuitem"
+                                                            class="d-flex align-items-center justify-content-between dropdown-item">
+                                                            Copy <i class="bx bx-copy text-muted ms-2"></i>
+                                                        </button>
+                                                        <button type="button" to="#" tabindex="0" role="menuitem"
+                                                            class="d-flex align-items-center justify-content-between dropdown-item">
+                                                            Bookmark
+                                                            <i class="bx bx-bookmarks text-muted ms-2"></i>
+                                                        </button>
+                                                        <button type="button" tabindex="0" role="menuitem"
+                                                            class="d-flex align-items-center justify-content-between delete-item dropdown-item">
+                                                            Delete
+                                                            <i class="bx bx-trash text-muted ms-2"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="conversation-name">
+                                                Data Chat<small class="text-muted mb-0 ms-2">05:49pm</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
                             </ul>
                         </div>
                         <div class="alert alert-warning alert-dismissible copyclipboard-alert px-4 fade show"
