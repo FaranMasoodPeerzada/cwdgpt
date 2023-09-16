@@ -123,9 +123,6 @@ from langchain.chains import RetrievalQA, ConversationalRetrievalChain
 from langchain.chains.conversation.memory import ConversationBufferMemory
 import os
 from langchain.prompts import PromptTemplate
-import dotenv
-
-dotenv.load_dotenv()
 openai_api_key = os.environ.get('OPENAI_API_KEY')
 
 
@@ -164,7 +161,6 @@ csv_memory = ConversationBufferMemory(memory_key='chat_history', k=10, return_me
 
 #Code to chat with a Csv File
 def datachat_process_csv(file_path,user_message):
-    os.environ['OPENAI_API_KEY'] = "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"
     encoding = detect_csv_encoding(file_path)
     print(encoding)
 
